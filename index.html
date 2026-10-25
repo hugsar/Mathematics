@@ -1,291 +1,384 @@
 
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth dark">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#09090b">
-  <meta name="description" content="Convergence et approximation : un essai mathématique consacré aux séries numériques, aux critères de convergence et aux méthodes d'approximation.">
-  <meta property="og:title" content="Convergence — Essai mathématique">
-  <meta property="og:description" content="Une exploration rigoureuse des séries numériques et des mécanismes de convergence.">
-  <meta property="og:type" content="article">
-  <title>Convergence — Essai mathématique</title>
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="Archives mathématiques — collection personnelle d'essais, de notes et de documents de mathématiques.">
+  <title>Archives mathématiques — Collection personnelle</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
-      darkMode: 'class',
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-            serif: ['Georgia', 'Cambria', 'serif'],
-            mono: ['"SFMono-Regular"', 'Consolas', 'monospace']
-          },
           colors: {
-            ink: '#09090b',
-            panel: '#111116',
-            accent: '#818cf8',
-            cyanlight: '#67e8f9'
+            paper: '#f7f6f2',
+            ink: '#292b2e',
+            muted: '#77766f',
+            line: '#dedbd3',
+            navy: '#344f72',
+            pale: '#eeece5'
           },
-          boxShadow: {
-            glow: '0 0 35px rgba(99,102,241,.22)',
-            card: '0 18px 60px rgba(0,0,0,.18)'
-          },
-          animation: {
-            float: 'float 7s ease-in-out infinite',
-            pulseSoft: 'pulseSoft 4s ease-in-out infinite'
-          },
-          keyframes: {
-            float: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-7px)' }
-            },
-            pulseSoft: {
-              '0%, 100%': { opacity: '.45' },
-              '50%': { opacity: '.9' }
-            }
+          fontFamily: {
+            sans: ['Inter', 'Arial', 'sans-serif'],
+            serif: ['"Source Serif 4"', 'Georgia', 'serif'],
+            mono: ['"IBM Plex Mono"', 'monospace']
           }
         }
       }
     };
   </script>
 
-  <!-- Fonts -->
+  <!-- Typographie -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
 
   <!-- KaTeX -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
 
-  <!-- Lucide Icons -->
+  <!-- Lucide -->
   <script src="https://unpkg.com/lucide@latest"></script>
-
-  <!-- GSAP -->
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 
   <style>
     :root {
-      color-scheme: dark;
-      --bg: #09090b;
-      --surface: rgba(24, 24, 29, .68);
-      --line: rgba(161, 161, 170, .14);
-      --muted: #a1a1aa;
-      --accent: #818cf8;
-      --cyan: #67e8f9;
+      color-scheme: light;
+      --paper: #f7f6f2;
+      --ink: #292b2e;
+      --muted: #77766f;
+      --line: #dedbd3;
+      --navy: #344f72;
+      --serif: "Source Serif 4", Georgia, serif;
     }
 
     * { box-sizing: border-box; }
 
     html {
-      background: var(--bg);
+      background: var(--paper);
+      scroll-behavior: smooth;
       scroll-padding-top: 90px;
-      scrollbar-color: #3f3f46 #09090b;
     }
 
     body {
       margin: 0;
-      overflow-x: clip;
-      background:
-        radial-gradient(ellipse at 50% -15%, rgba(79,70,229,.12), transparent 45%),
-        var(--bg);
-      color: #e4e4e7;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Inter, Arial, sans-serif;
+      font-size: 14px;
       -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
     }
 
     ::selection {
-      color: white;
-      background: rgba(99,102,241,.5);
+      color: #fff;
+      background: #526b8a;
     }
 
-    a, button { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
 
-    a:focus-visible, button:focus-visible, input:focus-visible {
-      outline: 2px solid #818cf8;
-      outline-offset: 4px;
+    button, input, select { font: inherit; }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible {
+      outline: 2px solid #526b8a;
+      outline-offset: 3px;
     }
 
-    .container-page {
-      width: min(1120px, calc(100% - 40px));
+    .page {
+      width: min(100% - 40px, 850px);
       margin-inline: auto;
     }
 
-    .grid-background {
-      background-image:
-        linear-gradient(rgba(161,161,170,.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(161,161,170,.045) 1px, transparent 1px);
-      background-size: 48px 48px;
-      mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
-      -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 85%);
+    .serif { font-family: var(--serif); }
+
+    .mono {
+      font-family: "IBM Plex Mono", monospace;
+      font-variant-numeric: tabular-nums;
     }
 
-    #math-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      opacity: .68;
-    }
-
-    .glass {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-    }
-
-    .surface {
-      background: linear-gradient(145deg, rgba(24,24,29,.9), rgba(17,17,22,.74));
-      border: 1px solid var(--line);
-    }
-
-    .gradient-text {
-      color: transparent;
-      background: linear-gradient(115deg, #fafafa 8%, #a5b4fc 53%, #67e8f9 100%);
-      background-clip: text;
-      -webkit-background-clip: text;
-    }
-
-    .eyebrow {
-      font-family: 'DM Mono', monospace;
-      text-transform: uppercase;
-      letter-spacing: .15em;
+    .micro {
+      font-family: "IBM Plex Mono", monospace;
       font-size: 10px;
-      color: #a5b4fc;
+      line-height: 1.6;
+      letter-spacing: .045em;
+      text-transform: uppercase;
     }
 
-    .btn-primary {
-      color: #fff;
-      background: linear-gradient(120deg, #6366f1, #4f46e5);
-      border: 1px solid rgba(165,180,252,.35);
-      box-shadow: 0 0 0 1px rgba(99,102,241,.1), 0 8px 32px rgba(79,70,229,.2);
-      transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+    .muted { color: var(--muted); }
+
+    .rule {
+      height: 1px;
+      background: var(--line);
     }
 
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      filter: brightness(1.1);
-      box-shadow: 0 0 35px rgba(99,102,241,.32);
+    .masthead {
+      border-bottom: 1px solid var(--line);
     }
 
-    .btn-secondary {
-      border: 1px solid rgba(161,161,170,.22);
-      background: rgba(39,39,42,.4);
-      transition: background .2s ease, border-color .2s ease, transform .2s ease;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(63,63,70,.48);
-      border-color: rgba(165,180,252,.38);
-      transform: translateY(-1px);
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #c9c5bb;
+      color: var(--navy);
+      font-family: var(--serif);
+      font-size: 23px;
+      flex-shrink: 0;
     }
 
     .nav-link {
-      color: #a1a1aa;
-      transition: color .2s ease;
+      color: #66665f;
+      transition: color .15s ease;
     }
 
-    .nav-link:hover { color: #fafafa; }
-
-    .card-hover {
-      transition: transform .25s ease, border-color .25s ease, background .25s ease;
+    .nav-link:hover,
+    .nav-link[aria-current="page"] {
+      color: var(--navy);
     }
 
-    .card-hover:hover {
-      transform: translateY(-4px);
-      border-color: rgba(129,140,248,.3);
-      background-color: rgba(39,39,50,.7);
+    .hero-title {
+      font-family: var(--serif);
+      font-weight: 400;
+      letter-spacing: -.045em;
+      line-height: 1.08;
     }
 
-    .math-display {
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 18px 4px;
-      scrollbar-width: thin;
-      scrollbar-color: #52525b transparent;
+    .text-link {
+      color: var(--navy);
+      text-decoration: underline;
+      text-decoration-color: #c0cbd7;
+      text-underline-offset: 3px;
     }
 
-    .math-display .katex-display { margin: .45em 0; }
-    .math-display .katex { font-size: clamp(.85rem, 2.3vw, 1.12rem); }
-    .katex { color: #e4e4e7; }
-
-    .code-block {
-      overflow-x: auto;
-      background: #09090b;
-      border: 1px solid rgba(161,161,170,.14);
-      scrollbar-width: thin;
+    .text-link:hover {
+      text-decoration-color: var(--navy);
     }
 
-    .code-block code {
-      font-family: 'DM Mono', monospace;
+    .primary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 40px;
+      padding: 10px 14px;
+      border: 1px solid #344f72;
+      background: #344f72;
+      color: #fff;
+      transition: background .15s ease;
+    }
+
+    .primary-button:hover { background: #263e5b; }
+
+    .secondary-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 10px 14px;
+      border: 1px solid #d5d1c7;
+      background: transparent;
+      color: #41434a;
+      transition: background .15s ease;
+    }
+
+    .secondary-button:hover { background: #eeece5; }
+
+    .field {
+      min-height: 40px;
+      width: 100%;
+      border: 1px solid #d8d5cc;
+      border-radius: 0;
+      background: #fbfaf7;
+      color: var(--ink);
+      padding: 9px 11px;
+      outline-offset: 2px;
+    }
+
+    .field::placeholder { color: #96938a; }
+
+    .document-row {
+      display: grid;
+      grid-template-columns: 66px minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: start;
+      padding: 23px 12px;
+      margin-inline: -12px;
+      border-bottom: 1px solid var(--line);
+      transition: background .15s ease;
+    }
+
+    .document-row:first-child {
+      border-top: 1px solid var(--line);
+    }
+
+    .document-row:hover {
+      background: rgba(235, 233, 225, .55);
+    }
+
+    .document-number {
+      padding-top: 3px;
+      color: #8b8981;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+    }
+
+    .document-title {
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 500;
+      line-height: 1.3;
+      letter-spacing: -.015em;
+      color: #292b2e;
+    }
+
+    .document-description {
+      max-width: 520px;
+      margin-top: 7px;
+      color: #77766f;
       font-size: 12px;
-      line-height: 1.9;
-      color: #c4b5fd;
-      white-space: pre;
+      line-height: 1.8;
     }
 
-    .tag {
-      border: 1px solid rgba(161,161,170,.17);
-      background: rgba(39,39,42,.4);
-      color: #d4d4d8;
+    .document-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px 12px;
+      margin-top: 10px;
+      color: #77766f;
+      font-size: 10px;
     }
 
-    .pdf-preview {
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(99,102,241,.13), transparent 65%),
-        #111116;
+    .document-meta span + span::before {
+      content: "·";
+      margin-right: 12px;
+      color: #aaa69c;
     }
 
-    .pdf-page {
-      background: #fafafa;
-      color: #27272a;
-      box-shadow: 0 10px 45px rgba(0,0,0,.35);
-      aspect-ratio: 0.707;
-      width: min(100%, 330px);
-      margin-inline: auto;
-      overflow: hidden;
-    }
-
-    .pdf-page .paper-serif {
-      font-family: Georgia, 'Times New Roman', serif;
-    }
-
-    .paper-rule {
-      height: 1px;
-      background: #d4d4d8;
-    }
-
-    .section-divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(161,161,170,.2), transparent);
-    }
-
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #a1a1aa;
+    .type-label {
       display: inline-block;
+      color: var(--navy);
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 9px;
+      letter-spacing: .04em;
+      text-transform: uppercase;
     }
 
-    .status-dot.ready { background: #34d399; }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #77766f;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .status::before {
+      content: "";
+      display: inline-block;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #a8a49a;
+      flex-shrink: 0;
+    }
+
+    .status.published::before { background: #66836a; }
+
+    .filter-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 32px;
+      padding: 6px 10px;
+      border: 1px solid transparent;
+      color: #77766f;
+      font-size: 11px;
+      transition: all .15s ease;
+    }
+
+    .filter-button:hover {
+      color: var(--ink);
+      background: #eeece5;
+    }
+
+    .filter-button.active {
+      border-color: #d4d1c7;
+      background: #eeece5;
+      color: #344f72;
+    }
+
+    .detail-panel {
+      border: 1px solid var(--line);
+      background: #fbfaf7;
+    }
+
+    .detail-panel[hidden] { display: none; }
+
+    .detail-content {
+      font-family: var(--serif);
+      font-size: 15px;
+      line-height: 1.95;
+      color: #55554f;
+    }
+
+    .math-panel {
+      overflow-x: auto;
+      background: #f1efe8;
+      border: 1px solid #e3dfd5;
+      padding: 18px 12px;
+      text-align: center;
+    }
+
+    .math-panel .katex {
+      font-size: clamp(.82rem, 2.5vw, 1.05rem);
+    }
+
+    .math-panel .katex-display { margin: .4em 0; }
+
+    .bibtex {
+      overflow-x: auto;
+      background: #efede6;
+      border: 1px solid #dedbd3;
+      padding: 18px;
+      color: #454955;
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 11px;
+      line-height: 1.9;
+      white-space: pre;
+      tab-size: 2;
+    }
+
+    .footer-link {
+      color: #77766f;
+      transition: color .15s ease;
+    }
+
+    .footer-link:hover { color: var(--navy); }
 
     #toast {
       position: fixed;
+      bottom: 20px;
       left: 50%;
-      bottom: 24px;
       z-index: 100;
-      transform: translate(-50%, 12px);
+      max-width: calc(100vw - 32px);
+      padding: 11px 16px;
+      border: 1px solid #d5d1c7;
+      background: #fbfaf7;
+      color: #292b2e;
+      font-size: 12px;
       opacity: 0;
       pointer-events: none;
-      transition: opacity .2s ease, transform .2s ease;
+      transform: translate(-50%, 6px);
+      transition: opacity .18s ease, transform .18s ease;
     }
 
     #toast.visible {
@@ -293,682 +386,352 @@
       transform: translate(-50%, 0);
     }
 
-    @media (max-width: 640px) {
-      .container-page { width: min(100% - 32px, 1120px); }
-      .grid-background { background-size: 32px 32px; }
-      .hero-title { letter-spacing: -.055em; }
-      .math-display { margin-inline: -8px; }
+    .empty-state {
+      padding: 38px 12px;
+      border-block: 1px solid var(--line);
+      color: var(--muted);
+      font-family: var(--serif);
+      font-size: 17px;
+    }
+
+    @media (max-width: 560px) {
+      .page { width: calc(100% - 32px); }
+
+      .document-row {
+        grid-template-columns: 38px minmax(0, 1fr);
+        gap: 10px;
+        padding: 20px 8px;
+        margin-inline: -8px;
+      }
+
+      .document-row .row-arrow {
+        display: none;
+      }
+
+      .document-title { font-size: 19px; }
+
+      .hero-title { font-size: clamp(37px, 10vw, 53px); }
+
+      .document-description { font-size: 12px; }
+
+      .bibtex {
+        padding: 14px;
+        font-size: 10px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
       *, *::before, *::after {
         animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        scroll-behavior: auto !important;
         transition-duration: .01ms !important;
       }
-      #math-canvas { display: none; }
     }
   </style>
 </head>
 
-<body class="font-sans antialiased">
-  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-indigo-600 focus:px-4 focus:py-3 focus:text-white">
-    Aller au contenu principal
+<body>
+  <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:p-3">
+    Aller au contenu
   </a>
 
-  <!-- Navigation -->
-  <header class="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-[#09090b]/80 backdrop-blur-xl">
-    <div class="container-page flex h-[68px] items-center justify-between gap-4">
-      <a href="#accueil" class="flex min-w-0 items-center gap-3" aria-label="Convergence, accueil">
-        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-indigo-400/20 bg-indigo-500/10 text-indigo-300">
-          <span class="text-xl font-serif italic">∑</span>
-        </span>
-        <span class="min-w-0">
-          <span class="block truncate text-sm font-semibold tracking-tight text-zinc-100">Convergence</span>
-          <span class="hidden text-[10px] tracking-wider text-zinc-500 sm:block">ESSAI MATHÉMATIQUE · 001</span>
+  <!-- En-tête -->
+  <header class="masthead">
+    <div class="page flex min-h-[76px] items-center justify-between gap-5">
+      <a href="#accueil" class="flex items-center gap-3" aria-label="Archives mathématiques, accueil">
+        <span class="brand-mark" aria-hidden="true">∑</span>
+        <span>
+          <span class="block text-[13px] font-semibold tracking-[-.025em]">Archives mathématiques</span>
+          <span class="mt-1 block text-[10px] text-muted">Collection personnelle · 2026</span>
         </span>
       </a>
 
-      <nav class="hidden items-center gap-7 md:flex" aria-label="Navigation principale">
-        <a class="nav-link text-xs" href="#resume">Résumé</a>
-        <a class="nav-link text-xs" href="#theoreme">Théorèmes</a>
-        <a class="nav-link text-xs" href="#document">PDF</a>
-        <a class="nav-link text-xs" href="#citation">Citation</a>
+      <nav class="hidden items-center gap-5 text-xs sm:flex" aria-label="Navigation principale">
+        <a href="#catalogue" class="nav-link">Catalogue</a>
+        <a href="#a-propos" class="nav-link">À propos</a>
+        <a href="#references" class="nav-link">Références</a>
       </nav>
 
-      <div class="flex shrink-0 items-center gap-2">
-        <a href="#citation" class="hidden rounded-lg px-3 py-2 text-xs text-zinc-300 transition hover:bg-white/5 sm:inline-flex">
-          CC BY 4.0
-        </a>
-        <button id="menu-toggle" type="button" class="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 text-zinc-300 md:hidden" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu">
-          <i data-lucide="menu" class="h-4 w-4"></i>
-        </button>
-      </div>
-    </div>
-
-    <div id="mobile-menu" class="hidden border-t border-white/[0.06] bg-[#09090b] px-4 py-4 md:hidden">
-      <nav class="container-page flex flex-col gap-1" aria-label="Navigation mobile">
-        <a class="rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/5" href="#resume">Résumé & abstract</a>
-        <a class="rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/5" href="#theoreme">Théorèmes</a>
-        <a class="rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/5" href="#document">Document PDF</a>
-        <a class="rounded-lg px-3 py-3 text-sm text-zinc-300 hover:bg-white/5" href="#citation">Citation BibTeX</a>
-      </nav>
+      <a href="#catalogue" class="inline-flex items-center gap-2 text-xs text-navy sm:hidden">
+        Catalogue <i data-lucide="arrow-down" class="h-3.5 w-3.5"></i>
+      </a>
     </div>
   </header>
 
-  <main id="main">
-    <!-- Hero -->
-    <section id="accueil" class="relative isolate flex min-h-[730px] items-center overflow-hidden border-b border-white/[0.04] pt-28 sm:min-h-[790px] sm:pt-24">
-      <div class="grid-background absolute inset-0 -z-10"></div>
-      <div class="absolute left-1/2 top-0 -z-10 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-indigo-600/[0.08] blur-[130px]"></div>
-      <canvas id="math-canvas" aria-hidden="true"></canvas>
+  <main id="contenu" class="page">
+    <!-- Présentation -->
+    <section id="accueil" class="pb-10 pt-14 sm:pb-12 sm:pt-20">
+      <p class="micro muted">Répertoire de travaux mathématiques · Nº 001</p>
 
-      <div class="container-page relative z-10 pb-20 pt-10 sm:pb-28">
-        <div class="hero-content mx-auto max-w-4xl text-center">
-          <div class="mb-8 inline-flex flex-wrap items-center justify-center gap-2 rounded-full border border-white/[0.09] bg-white/[0.025] px-3 py-2 text-[10px] text-zinc-400 sm:text-xs">
-            <span class="inline-block h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
-            <span>NOTE DE RECHERCHE INDÉPENDANTE</span>
-            <span class="mx-1 h-3 w-px bg-zinc-700"></span>
-            <span class="font-mono text-indigo-300">LICENCE 1 · MATHÉMATIQUES</span>
-          </div>
+      <h1 class="hero-title mt-5 max-w-[680px] text-5xl sm:text-[62px]">
+        Notes, essais<br class="hidden sm:block">
+        <span class="text-[#777b80]">et mathématiques.</span>
+      </h1>
 
-          <h1 class="hero-title mx-auto max-w-4xl text-5xl font-semibold leading-[1.07] tracking-[-0.045em] text-zinc-50 sm:text-6xl md:text-7xl lg:text-[84px]">
-            L'élégance de la
-            <span class="gradient-text">convergence.</span>
-          </h1>
+      <p class="serif mt-6 max-w-[590px] text-lg leading-[1.85] text-[#65645f] sm:text-xl">
+        Une collection indépendante de documents consacrés aux mathématiques, constituée au fil des études : définitions, démonstrations, notes de lecture et essais personnels.
+      </p>
 
-          <p class="mx-auto mt-7 max-w-2xl text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
-            Une exploration des séries numériques, de leurs critères de convergence et des structures qui relient l'analyse à l'intuition mathématique.
-          </p>
+      <div class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted">
+        <span class="inline-flex items-center gap-2">
+          <i data-lucide="graduation-cap" class="h-4 w-4 text-navy"></i>
+          Licence 1 · Mathématiques
+        </span>
+        <span class="inline-flex items-center gap-2">
+          <i data-lucide="map-pin" class="h-4 w-4"></i>
+          France
+        </span>
+        <span class="inline-flex items-center gap-2">
+          <i data-lucide="calendar-days" class="h-4 w-4"></i>
+          Édition 2026
+        </span>
+      </div>
 
-          <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <a href="#document" class="btn-primary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-medium">
-              <i data-lucide="file-down" class="h-4 w-4"></i>
-              Consulter le document
-              <i data-lucide="arrow-up-right" class="h-3.5 w-3.5 opacity-70"></i>
-            </a>
-            <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="btn-secondary inline-flex min-h-12 items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-medium text-zinc-200">
-              <i data-lucide="github" class="h-4 w-4"></i>
-              Voir sur GitHub
-              <i data-lucide="external-link" class="h-3.5 w-3.5 text-zinc-500"></i>
-            </a>
-          </div>
-
-          <div class="mx-auto mt-12 flex max-w-2xl flex-wrap items-center justify-center gap-x-5 gap-y-3 text-xs text-zinc-500">
-            <span class="inline-flex items-center gap-2">
-              <i data-lucide="user-round" class="h-3.5 w-3.5"></i>
-              Alex Martin
-            </span>
-            <span class="hidden h-1 w-1 rounded-full bg-zinc-700 sm:block"></span>
-            <span class="inline-flex items-center gap-2">
-              <i data-lucide="graduation-cap" class="h-3.5 w-3.5"></i>
-              Étudiant en L1 Mathématiques
-            </span>
-            <span class="hidden h-1 w-1 rounded-full bg-zinc-700 sm:block"></span>
-            <span class="inline-flex items-center gap-2">
-              <i data-lucide="calendar-days" class="h-3.5 w-3.5"></i>
-              25 octobre 2026
-            </span>
-          </div>
-
-          <div class="mx-auto mt-9 flex max-w-fit flex-wrap items-center justify-center gap-2 rounded-xl border border-white/[0.06] bg-zinc-900/60 px-3 py-2.5">
-            <span class="inline-flex items-center gap-1.5 text-[10px] text-zinc-400 sm:text-xs">
-              <i data-lucide="fingerprint" class="h-3.5 w-3.5 text-zinc-500"></i>
-              DOI
-            </span>
-            <span class="font-mono text-[10px] text-zinc-300 sm:text-xs">Enregistrement non attribué</span>
-            <span class="mx-1 h-3 w-px bg-zinc-700"></span>
-            <span class="inline-flex items-center gap-1.5 text-[10px] text-zinc-400 sm:text-xs">
-              <i data-lucide="scale" class="h-3.5 w-3.5 text-indigo-300"></i>
-              CC BY 4.0
-            </span>
-          </div>
-          <p class="mt-3 text-[10px] text-zinc-600">Projet pédagogique indépendant · Version 1.0</p>
-        </div>
-
-        <div class="pointer-events-none absolute bottom-5 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 text-zinc-600 sm:flex">
-          <span class="font-mono text-[9px] uppercase tracking-[.2em]">Explorer</span>
-          <i data-lucide="arrow-down" class="h-3.5 w-3.5 animate-pulse"></i>
-        </div>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#catalogue" class="primary-button text-xs">
+          Parcourir les documents
+          <i data-lucide="arrow-down" class="h-3.5 w-3.5"></i>
+        </a>
+        <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="secondary-button text-xs">
+          <i data-lucide="github" class="h-4 w-4"></i>
+          Dépôt GitHub
+          <i data-lucide="arrow-up-right" class="h-3 w-3"></i>
+        </a>
       </div>
     </section>
 
-    <!-- Metadata strip -->
-    <section class="border-b border-white/[0.05]">
-      <div class="container-page grid grid-cols-2 divide-x divide-white/[0.07] sm:grid-cols-4">
-        <div class="px-3 py-6 sm:px-6 sm:py-7">
-          <p class="eyebrow">Domaine</p>
-          <p class="mt-2 text-sm font-medium text-zinc-200">Analyse réelle</p>
+    <div class="rule"></div>
+
+    <!-- Catalogue -->
+    <section id="catalogue" class="py-12 sm:py-16">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <p class="micro muted">Index général / 01</p>
+          <h2 class="serif mt-2 text-3xl font-medium tracking-tight">Catalogue</h2>
         </div>
-        <div class="px-4 py-6 sm:px-6 sm:py-7">
-          <p class="eyebrow">Niveau</p>
-          <p class="mt-2 text-sm font-medium text-zinc-200">L1 · Fondamentaux</p>
-        </div>
-        <div class="border-t border-white/[0.07] px-3 py-6 sm:border-t-0 sm:px-6 sm:py-7">
-          <p class="eyebrow">Format</p>
-          <p class="mt-2 text-sm font-medium text-zinc-200">Essai pédagogique</p>
-        </div>
-        <div class="border-t border-white/[0.07] px-4 py-6 sm:border-t-0 sm:px-6 sm:py-7">
-          <p class="eyebrow">Langue</p>
-          <p class="mt-2 text-sm font-medium text-zinc-200">Français · FR</p>
-        </div>
+        <p id="result-count" class="mono text-[10px] text-muted" aria-live="polite">03 références</p>
       </div>
+
+      <p class="mt-4 max-w-xl text-xs leading-6 text-muted">
+        Essais, notes de cours et fiches de travail. Les documents en préparation sont signalés explicitement.
+      </p>
+
+      <!-- Recherche et filtres -->
+      <div class="mt-7 grid gap-3 sm:grid-cols-[1fr_auto]">
+        <label class="relative block">
+          <span class="sr-only">Rechercher un document</span>
+          <i data-lucide="search" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#96938a]"></i>
+          <input id="search-input" class="field pl-9 text-xs" type="search" placeholder="Titre, mot-clé, numéro…" autocomplete="off">
+        </label>
+
+        <label class="sr-only" for="discipline-select">Filtrer par discipline</label>
+        <select id="discipline-select" class="field text-xs sm:w-[185px]">
+          <option value="all">Toutes les disciplines</option>
+          <option value="analyse">Analyse</option>
+          <option value="algebre">Algèbre</option>
+          <option value="geometrie">Géométrie</option>
+          <option value="logique">Logique</option>
+        </select>
+      </div>
+
+      <div class="mt-4 flex flex-wrap gap-1" role="group" aria-label="Filtrer par type de document">
+        <button class="filter-button active" data-type="all" aria-pressed="true">Tous les types</button>
+        <button class="filter-button" data-type="Essai" aria-pressed="false">Essais</button>
+        <button class="filter-button" data-type="Note de cours" aria-pressed="false">Notes de cours</button>
+        <button class="filter-button" data-type="Fiche" aria-pressed="false">Fiches</button>
+      </div>
+
+      <!-- Les entrées sont générées depuis le catalogue JavaScript -->
+      <div id="document-list" class="mt-5" aria-live="polite"></div>
+
+      <p class="mt-5 text-[10px] leading-5 text-muted">
+        Les titres et notices de démonstration ci-dessus illustrent la structure du catalogue. Les liens vers des fichiers réels sont activés uniquement lorsqu'une ressource est publiée.
+      </p>
     </section>
 
-    <!-- Abstract -->
-    <section id="resume" class="py-24 sm:py-32">
-      <div class="container-page">
-        <div class="reveal mb-12 max-w-2xl">
-          <p class="eyebrow">01 — Présentation</p>
-          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
-            Résumé & abstract<span class="text-indigo-400">.</span>
-          </h2>
-          <p class="mt-4 text-sm leading-7 text-zinc-400 sm:text-base">
-            Comprendre pourquoi une suite de sommes partielles peut tendre vers une limite finie est l'un des premiers grands enjeux de l'analyse.
-          </p>
-        </div>
+    <div class="rule"></div>
 
-        <article class="reveal glass relative overflow-hidden rounded-2xl p-6 shadow-card sm:p-10">
-          <div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-indigo-500/[0.08] blur-[90px]"></div>
-          <div class="relative grid gap-10 lg:grid-cols-[1.35fr_.65fr] lg:gap-14">
-            <div>
-              <div class="mb-6 flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
-                <span class="eyebrow">Résumé en français</span>
-              </div>
-              <p class="text-sm leading-8 text-zinc-300 sm:text-base sm:leading-8">
-                Cet essai propose une introduction structurée à l'étude des séries numériques réelles. À partir de la notion de somme partielle, nous établissons les conditions nécessaires à la convergence et examinons plusieurs outils classiques : comparaison, convergence géométrique et critère intégral. L'objectif est de relier les définitions formelles aux mécanismes concrets qui gouvernent le comportement des sommes infinies.
-              </p>
-              <p class="mt-5 text-sm leading-8 text-zinc-400 sm:text-base sm:leading-8">
-                Une attention particulière est portée aux hypothèses des théorèmes, à la distinction entre convergence absolue et convergence simple, ainsi qu'à l'estimation du reste d'une série. Des exemples calculés illustrent comment une démarche rigoureuse peut rendre accessibles des objets qui semblent, à première vue, paradoxaux.
-              </p>
+    <!-- Notice détaillée -->
+    <section id="notice" class="py-12 sm:py-16">
+      <p class="micro muted">Notice sélectionnée / Détail bibliographique</p>
 
-              <div class="mt-7 flex flex-wrap gap-2">
-                <span class="tag rounded-md px-2.5 py-1.5 text-[10px]">Séries numériques</span>
-                <span class="tag rounded-md px-2.5 py-1.5 text-[10px]">Convergence</span>
-                <span class="tag rounded-md px-2.5 py-1.5 text-[10px]">Analyse réelle</span>
-                <span class="tag rounded-md px-2.5 py-1.5 text-[10px]">Reste d'une série</span>
-              </div>
-            </div>
-
-            <aside class="border-t border-white/[0.08] pt-8 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
-              <div class="mb-6 flex items-center gap-2">
-                <span class="h-1.5 w-1.5 rounded-full bg-cyan-300"></span>
-                <span class="eyebrow">Abstract · English</span>
-              </div>
-              <p class="text-sm leading-7 text-zinc-400">
-                This essay provides a structured introduction to real numerical series. Starting from partial sums, it develops the fundamental conditions for convergence and presents classical tools, including comparison tests, geometric series and the integral test.
-              </p>
-              <p class="mt-4 text-sm leading-7 text-zinc-400">
-                Special attention is given to theorem hypotheses, absolute convergence and remainder estimates. Worked examples connect formal definitions with intuitive interpretations, illustrating the role of rigorous reasoning in elementary real analysis.
-              </p>
-              <div class="mt-8 border-t border-white/[0.07] pt-5">
-                <p class="eyebrow">Mots-clés</p>
-                <p class="mt-3 text-xs leading-6 text-zinc-400">Numerical series · Real analysis · Convergence tests · Remainder estimates</p>
-              </div>
-            </aside>
-          </div>
-        </article>
-
-        <div class="mt-5 grid gap-4 sm:grid-cols-3">
-          <article class="reveal card-hover surface rounded-xl p-6">
-            <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-indigo-400/20 bg-indigo-500/10 text-indigo-300">
-              <i data-lucide="git-compare-arrows" class="h-5 w-5"></i>
-            </div>
-            <p class="eyebrow">Contribution 01</p>
-            <h3 class="mt-3 text-base font-semibold text-zinc-100">Des critères unifiés</h3>
-            <p class="mt-3 text-sm leading-6 text-zinc-400">Un cadre commun pour comparer les séries et identifier les conditions de convergence.</p>
-          </article>
-
-          <article class="reveal card-hover surface rounded-xl p-6">
-            <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-cyan-300/20 bg-cyan-300/10 text-cyan-200">
-              <i data-lucide="function-square" class="h-5 w-5"></i>
-            </div>
-            <p class="eyebrow">Contribution 02</p>
-            <h3 class="mt-3 text-base font-semibold text-zinc-100">Une approche calculable</h3>
-            <p class="mt-3 text-sm leading-6 text-zinc-400">Des exemples qui relient les preuves théoriques aux sommes et approximations numériques.</p>
-          </article>
-
-          <article class="reveal card-hover surface rounded-xl p-6">
-            <div class="mb-5 flex h-10 w-10 items-center justify-center rounded-xl border border-violet-400/20 bg-violet-500/10 text-violet-300">
-              <i data-lucide="book-open-check" class="h-5 w-5"></i>
-            </div>
-            <p class="eyebrow">Contribution 03</p>
-            <h3 class="mt-3 text-base font-semibold text-zinc-100">La rigueur avant tout</h3>
-            <p class="mt-3 text-sm leading-6 text-zinc-400">Les hypothèses, les limites des critères et les erreurs classiques sont explicitement discutées.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <div class="container-page"><div class="section-divider"></div></div>
-
-    <!-- Mathematical preview -->
-    <section id="theoreme" class="py-24 sm:py-32">
-      <div class="container-page">
-        <div class="reveal mb-12 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-          <div class="max-w-2xl">
-            <p class="eyebrow">02 — Cœur mathématique</p>
-            <h2 class="mt-4 text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
-              La convergence, <span class="gradient-text">en pratique.</span>
+      <div id="detail-panel" class="detail-panel mt-5 p-5 sm:p-8">
+        <div class="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p id="detail-code" class="micro text-navy">AN-001 · ESSAI</p>
+            <h2 id="detail-title" class="serif mt-3 text-3xl leading-tight sm:text-4xl">
+              Séries numériques et convergence
             </h2>
-            <p class="mt-4 text-sm leading-7 text-zinc-400 sm:text-base">
-              Une illustration interactive du critère intégral et de la précision d'une approximation par sommes partielles.
+            <p id="detail-subtitle" class="mt-3 text-xs leading-6 text-muted">
+              Critères, estimations et fondements de l'analyse réelle.
             </p>
           </div>
-          <span class="inline-flex w-fit items-center gap-2 rounded-lg border border-indigo-400/15 bg-indigo-400/[0.06] px-3 py-2 font-mono text-[10px] text-indigo-200">
-            <i data-lucide="sigma" class="h-3.5 w-3.5"></i>
-            THÉORÈME 2.1
-          </span>
-        </div>
-
-        <div class="grid items-start gap-5 lg:grid-cols-[1.2fr_.8fr]">
-          <article class="reveal surface overflow-hidden rounded-2xl">
-            <div class="flex items-center justify-between border-b border-white/[0.07] px-5 py-4 sm:px-7">
-              <div>
-                <p class="text-sm font-medium text-zinc-200">Critère intégral de convergence</p>
-                <p class="mt-1 text-xs text-zinc-500">Énoncé · Hypothèses classiques</p>
-              </div>
-              <i data-lucide="book-marked" class="h-4 w-4 text-zinc-500"></i>
-            </div>
-
-            <div class="p-5 sm:p-8">
-              <p class="text-sm leading-7 text-zinc-400">
-                Soit \(f:[1,+\infty[\to\mathbb{R}_+\) une fonction continue, positive et décroissante. Sous ces hypothèses, la série associée et l'intégrale impropre ont le même caractère de convergence :
-              </p>
-
-              <div class="math-display my-5 rounded-xl border border-indigo-400/15 bg-indigo-500/[0.045] px-3 py-5 text-center sm:px-5 sm:py-7" aria-label="Série de f de n et intégrale de un à l'infini de f de x">
-                \[
-                \boxed{
-                \sum_{n=1}^{\infty} f(n)
-                \text{ converge }
-                \Longleftrightarrow
-                \int_1^{+\infty} f(x)\,dx < +\infty
-                }
-                \]
-              </div>
-
-              <div class="rounded-xl border border-white/[0.07] bg-black/20 p-4 sm:p-5">
-                <p class="mb-3 text-[10px] uppercase tracking-[.15em] text-zinc-500">Exemple fondamental · Série de Riemann</p>
-                <div class="math-display text-center">
-                  \[
-                  \sum_{n=1}^{\infty}\frac{1}{n^p}
-                  \begin{cases}
-                  \text{converge}, & p>1,\\
-                  \text{diverge}, & p\leq 1.
-                  \end{cases}
-                  \]
-                </div>
-                <p class="mt-3 text-xs leading-6 text-zinc-500">
-                  La frontière \(p=1\) sépare la convergence de la divergence : la série harmonique diverge malgré la limite \(\lim_{n\to\infty}1/n=0\).
-                </p>
-              </div>
-
-              <div class="mt-5 flex items-start gap-3 rounded-lg border border-amber-400/10 bg-amber-400/[0.035] p-4">
-                <i data-lucide="info" class="mt-0.5 h-4 w-4 shrink-0 text-amber-300"></i>
-                <p class="text-xs leading-6 text-zinc-400">
-                  Attention : le fait que \(u_n\to0\) est une condition nécessaire à la convergence de \(\sum u_n\), mais ce n'est pas une condition suffisante. Le critère intégral exige notamment la positivité, la continuité et la décroissance de \(f\).
-                </p>
-              </div>
-            </div>
-          </article>
-
-          <div class="reveal flex flex-col gap-5">
-            <article class="surface rounded-2xl p-5 sm:p-6">
-              <div class="flex items-center justify-between gap-3">
-                <div>
-                  <p class="text-sm font-medium text-zinc-100">Explorer un paramètre</p>
-                  <p class="mt-1 text-xs text-zinc-500">Série de Riemann</p>
-                </div>
-                <span class="rounded-md bg-zinc-800 px-2 py-1 font-mono text-xs text-cyan-200">p</span>
-              </div>
-
-              <div class="math-display my-4 rounded-lg bg-black/20 py-4 text-center">
-                \[
-                S_N(p)=\sum_{n=1}^{N}\frac{1}{n^p}
-                \]
-              </div>
-
-              <label for="p-slider" class="flex items-center justify-between text-xs text-zinc-400">
-                <span>Exposant \(p\)</span>
-                <span id="p-value" class="font-mono text-indigo-300">1,50</span>
-              </label>
-              <input id="p-slider" type="range" min="0.5" max="2.5" step="0.05" value="1.5" class="mt-4 w-full cursor-pointer accent-indigo-400" aria-describedby="p-help">
-
-              <div class="mt-5 grid grid-cols-2 gap-3">
-                <div class="rounded-xl border border-white/[0.07] bg-black/20 p-4">
-                  <p class="text-[10px] text-zinc-500">Somme partielle</p>
-                  <p id="sum-value" class="mt-2 font-mono text-xl text-zinc-100">2,513</p>
-                  <p class="mt-1 text-[10px] text-zinc-600">N = 1 000</p>
-                </div>
-                <div class="rounded-xl border border-white/[0.07] bg-black/20 p-4">
-                  <p class="text-[10px] text-zinc-500">Nature de la série</p>
-                  <p id="convergence-value" class="mt-2 text-sm font-semibold text-emerald-300">Convergente</p>
-                  <p id="convergence-help" class="mt-1 text-[10px] leading-4 text-zinc-500">Si p &gt; 1</p>
-                </div>
-              </div>
-              <p id="p-help" class="mt-4 text-xs leading-6 text-zinc-500">
-                Déplacez le curseur pour observer la somme des 1 000 premiers termes et le changement de nature au seuil p = 1.
-              </p>
-            </article>
-
-            <article class="surface rounded-2xl p-5 sm:p-6">
-              <div class="mb-4 flex items-center gap-2">
-                <i data-lucide="lightbulb" class="h-4 w-4 text-amber-300"></i>
-                <h3 class="text-sm font-medium text-zinc-200">À retenir</h3>
-              </div>
-              <ul class="space-y-3 text-xs leading-6 text-zinc-400">
-                <li class="flex gap-2"><span class="text-indigo-300">01.</span><span>La convergence est une propriété de la suite des sommes partielles.</span></li>
-                <li class="flex gap-2"><span class="text-indigo-300">02.</span><span>Un critère doit être utilisé avec toutes ses hypothèses.</span></li>
-                <li class="flex gap-2"><span class="text-indigo-300">03.</span><span>Une somme partielle finie n'est pas, à elle seule, une preuve de convergence.</span></li>
-              </ul>
-            </article>
-          </div>
-        </div>
-
-        <!-- Proof toggle -->
-        <article class="reveal mt-5 overflow-hidden rounded-2xl border border-white/[0.08] bg-zinc-900/40">
-          <button id="proof-toggle" type="button" class="flex w-full items-center justify-between gap-4 px-5 py-5 text-left sm:px-7" aria-expanded="false" aria-controls="proof-content">
-            <span class="flex items-center gap-3">
-              <span class="flex h-9 w-9 items-center justify-center rounded-lg border border-indigo-400/15 bg-indigo-500/10 text-indigo-300">
-                <i data-lucide="file-check-2" class="h-4 w-4"></i>
-              </span>
-              <span>
-                <span class="block text-sm font-medium text-zinc-100">Démonstration condensée</span>
-                <span class="mt-1 block text-xs text-zinc-500">Comparer les rectangles et l'aire sous la courbe.</span>
-              </span>
-            </span>
-            <i id="proof-chevron" data-lucide="chevron-down" class="h-4 w-4 shrink-0 text-zinc-500 transition-transform"></i>
+          <button id="close-detail" class="secondary-button text-xs" type="button">
+            Fermer <i data-lucide="x" class="h-3.5 w-3.5"></i>
           </button>
+        </div>
 
-          <div id="proof-content" class="hidden border-t border-white/[0.07] px-5 py-6 sm:px-7 sm:py-7">
-            <p class="text-sm leading-7 text-zinc-400">
-              Puisque \(f\) est positive et décroissante, pour tout entier \(n\geq 2\), on dispose de l'encadrement :
-            </p>
-            <div class="math-display my-4 rounded-xl bg-black/20 px-3 py-4 text-center">
-              \[
-              f(n)\leq\int_{n-1}^{n}f(x)\,dx
-              \leq f(n-1).
-              \]
-            </div>
-            <p class="text-sm leading-7 text-zinc-400">
-              En sommant ces inégalités, on relie les sommes partielles à l'intégrale. La positivité garantit que les sommes partielles sont croissantes ; l'intégrale finie les majore, ce qui entraîne leur convergence. Réciproquement, si la série converge, l'encadrement supérieur permet de contrôler les intégrales partielles et d'établir leur bornitude.
-            </p>
-            <div class="mt-4 rounded-lg border border-indigo-400/15 bg-indigo-500/[0.045] p-4">
-              <p class="text-xs leading-6 text-zinc-400">
-                Cette esquisse explique le mécanisme du critère ; une rédaction complète doit expliciter les sommes d'inégalités et les passages à la limite. Elle ne remplace pas la vérification des hypothèses de l'énoncé.
-              </p>
-            </div>
+        <div class="my-6 rule"></div>
+
+        <dl class="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
+          <div>
+            <dt class="micro muted">Auteur</dt>
+            <dd id="detail-author" class="mt-2 text-xs">Cousseau Hugo</dd>
           </div>
-        </article>
-      </div>
-    </section>
+          <div>
+            <dt class="micro muted">Discipline</dt>
+            <dd id="detail-discipline" class="mt-2 text-xs">Analyse</dd>
+          </div>
+          <div>
+            <dt class="micro muted">Niveau</dt>
+            <dd id="detail-level" class="mt-2 text-xs">Licence 1</dd>
+          </div>
+          <div>
+            <dt class="micro muted">Année</dt>
+            <dd id="detail-year" class="mt-2 text-xs">2026</dd>
+          </div>
+        </dl>
 
-    <div class="container-page"><div class="section-divider"></div></div>
-
-    <!-- PDF -->
-    <section id="document" class="py-24 sm:py-32">
-      <div class="container-page">
-        <div class="reveal mb-12">
-          <p class="eyebrow">03 — Le manuscrit</p>
-          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
-            Le document, <span class="gradient-text">sans détour.</span>
-          </h2>
-          <p class="mt-4 max-w-xl text-sm leading-7 text-zinc-400">
-            Une présentation éditoriale pensée pour la lecture scientifique : typographie soignée, notations cohérentes et structure facilement consultable.
+        <div class="mt-8">
+          <h3 class="serif text-xl">Résumé</h3>
+          <p id="detail-abstract" class="detail-content mt-3">
+            Introduction aux séries numériques réelles, à la convergence des sommes partielles et aux principaux critères permettant de déterminer le comportement d'une série.
           </p>
         </div>
 
-        <div class="reveal grid overflow-hidden rounded-2xl border border-white/[0.08] bg-zinc-900/35 lg:grid-cols-[.85fr_1.15fr]">
-          <div class="flex flex-col justify-between p-6 sm:p-9 lg:p-10">
-            <div>
-              <div class="flex h-12 w-12 items-center justify-center rounded-xl border border-indigo-400/20 bg-indigo-500/10 text-indigo-300">
-                <i data-lucide="file-text" class="h-6 w-6"></i>
-              </div>
-              <p class="eyebrow mt-7">Manuscrit · Version 1.0</p>
-              <h3 class="mt-3 text-2xl font-semibold leading-snug tracking-tight text-zinc-100">
-                Séries numériques et convergence
-              </h3>
-              <p class="mt-4 text-sm leading-7 text-zinc-400">
-                Des fondements de l'analyse réelle aux critères de convergence, avec des exemples détaillés et une démonstration du critère intégral.
-              </p>
-
-              <div class="mt-7 space-y-3 border-y border-white/[0.07] py-5">
-                <div class="flex items-center justify-between gap-3 text-xs">
-                  <span class="text-zinc-500">Auteur</span>
-                  <span class="text-right text-zinc-300">Alex Martin</span>
-                </div>
-                <div class="flex items-center justify-between gap-3 text-xs">
-                  <span class="text-zinc-500">Langue</span>
-                  <span class="text-zinc-300">Français</span>
-                </div>
-                <div class="flex items-center justify-between gap-3 text-xs">
-                  <span class="text-zinc-500">Format attendu</span>
-                  <span class="font-mono text-zinc-300">PDF · A4</span>
-                </div>
-                <div class="flex items-center justify-between gap-3 text-xs">
-                  <span class="text-zinc-500">Licence envisagée</span>
-                  <span class="text-indigo-300">CC BY 4.0</span>
-                </div>
-              </div>
-
-              <div class="mt-5 flex items-start gap-2.5 text-xs leading-6 text-zinc-500">
-                <i data-lucide="info" class="mt-0.5 h-4 w-4 shrink-0"></i>
-                <p>La maquette ci-contre illustre le rendu éditorial. Le fichier PDF intégral n'est pas encore publié.</p>
-              </div>
-            </div>
-
-            <div class="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-              <button id="pdf-download" type="button" class="btn-primary inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-medium">
-                <i data-lucide="file-down" class="h-4 w-4"></i>
-                Télécharger le PDF
-              </button>
-              <a href="#citation" class="btn-secondary inline-flex min-h-11 items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm text-zinc-200">
-                <i data-lucide="quote" class="h-4 w-4"></i>
-                Citer ce travail
-              </a>
-            </div>
-          </div>
-
-          <div class="pdf-preview border-t border-white/[0.07] p-5 sm:p-8 lg:border-l lg:border-t-0 lg:p-10">
-            <div class="mb-5 flex items-center justify-between">
-              <span class="inline-flex items-center gap-2 text-xs text-zinc-400">
-                <span class="status-dot"></span>
-                Aperçu éditorial
-              </span>
-              <span class="font-mono text-[10px] text-zinc-600">A4 · PAGE 01</span>
-            </div>
-
-            <div class="pdf-page flex flex-col p-6 sm:p-8">
-              <div class="flex items-center justify-between">
-                <span class="font-mono text-[7px] tracking-[.16em] text-zinc-500">ESSAI MATHÉMATIQUE</span>
-                <span class="font-mono text-[7px] text-zinc-400">2026 · 001</span>
-              </div>
-              <div class="paper-rule mt-3"></div>
-
-              <div class="mt-12 sm:mt-16">
-                <p class="font-mono text-[7px] uppercase tracking-[.15em] text-indigo-700">Analyse réelle · Niveau L1</p>
-                <h4 class="paper-serif mt-4 text-[27px] leading-[1.15] tracking-tight sm:text-[34px]">Séries numériques<br>et convergence</h4>
-                <p class="paper-serif mt-4 text-[11px] italic leading-5 text-zinc-600 sm:text-xs">
-                  Critères, estimations et fondements de l'analyse
-                </p>
-              </div>
-
-              <div class="mt-8 border-l-2 border-indigo-400 pl-3">
-                <p class="paper-serif text-[10px] leading-5 text-zinc-600 sm:text-[11px]">
-                  « La convergence transforme une infinité de termes en un objet que l'on peut étudier avec précision. »
-                </p>
-              </div>
-
-              <div class="mt-8">
-                <p class="font-mono text-[7px] uppercase tracking-wider text-zinc-500">Résumé</p>
-                <div class="paper-rule mt-2"></div>
-                <p class="paper-serif mt-3 text-[9px] leading-[1.85] text-zinc-600 sm:text-[10px]">
-                  Cet essai introduit les séries numériques réelles à travers la suite des sommes partielles. Les principaux critères de convergence sont exposés et illustrés par des exemples calculés, en accordant une attention particulière aux hypothèses des théorèmes.
-                </p>
-              </div>
-
-              <div class="mt-6 rounded-sm bg-zinc-100 py-3 text-center">
-                <p class="paper-serif text-[12px] text-zinc-700">∑ aₙ = lim Sₙ</p>
-                <p class="mt-1 font-mono text-[6px] text-zinc-500">DÉFINITION FONDAMENTALE</p>
-              </div>
-
-              <div class="mt-auto pt-8">
-                <div class="paper-rule"></div>
-                <div class="mt-3 flex items-end justify-between">
-                  <div>
-                    <p class="paper-serif text-[9px] font-bold text-zinc-700">Alex Martin</p>
-                    <p class="mt-1 font-mono text-[7px] text-zinc-500">LICENCE 1 · MATHÉMATIQUES</p>
-                  </div>
-                  <p class="font-mono text-[7px] text-zinc-500">01 / 12</p>
-                </div>
-              </div>
-            </div>
-            <p class="mt-4 text-center text-[10px] text-zinc-600">Maquette illustrative — ne constitue pas le PDF intégral.</p>
+        <div class="mt-8">
+          <h3 class="serif text-xl">Extrait mathématique</h3>
+          <div id="detail-equation" class="math-panel mt-3">
+            \[
+              \sum_{n=1}^{\infty}\frac{1}{n^p}
+              \quad\text{converge si et seulement si}\quad p>1.
+            \]
           </div>
         </div>
+
+        <div class="mt-8">
+          <h3 class="serif text-xl">Ressources</h3>
+          <div id="detail-resources" class="mt-3 flex flex-wrap gap-3">
+            <span class="text-xs text-muted">Aucun fichier publié pour cette notice.</span>
+          </div>
+        </div>
+
+        <p class="mt-7 border-t border-[#dedbd3] pt-4 text-[10px] leading-5 text-muted">
+          Notice descriptive d'un travail pédagogique indépendant. Elle ne constitue pas une publication évaluée par les pairs.
+        </p>
       </div>
     </section>
 
-    <div class="container-page"><div class="section-divider"></div></div>
+    <div class="rule"></div>
+
+    <!-- À propos -->
+    <section id="a-propos" class="py-12 sm:py-16">
+      <p class="micro muted">Présentation / 02</p>
+      <h2 class="serif mt-2 text-3xl font-medium">À propos de la collection</h2>
+
+      <div class="mt-6 grid gap-8 sm:grid-cols-[1.15fr_.85fr]">
+        <div class="serif text-base leading-[1.95] text-[#65645f]">
+          <p>
+            Ces archives rassemblent des travaux réalisés dans le cadre d'un parcours personnel en mathématiques. Elles ont pour objectif de conserver des raisonnements, d'organiser les connaissances acquises et de rendre certains documents accessibles à d'autres étudiants.
+          </p>
+          <p class="mt-4">
+            Chaque notice distingue les documents achevés des travaux en cours. Les démonstrations sont présentées avec leurs hypothèses et leur domaine de validité, dans la mesure du possible.
+          </p>
+        </div>
+
+        <aside class="border-l border-[#dedbd3] pl-5">
+          <p class="micro muted">Principes éditoriaux</p>
+          <ul class="mt-4 space-y-4 text-xs leading-6 text-[#65645f]">
+            <li class="flex gap-3">
+              <span class="mono text-navy">01</span>
+              <span>Privilégier la précision des définitions.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mono text-navy">02</span>
+              <span>Expliciter les hypothèses des résultats.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mono text-navy">03</span>
+              <span>Conserver des références stables et datées.</span>
+            </li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <div class="rule"></div>
 
     <!-- Citation -->
-    <section id="citation" class="py-24 sm:py-32">
-      <div class="container-page">
-        <div class="reveal mb-10 max-w-2xl">
-          <p class="eyebrow">04 — Référencement scientifique</p>
-          <h2 class="mt-4 text-3xl font-semibold tracking-tight text-zinc-100 sm:text-4xl">
-            Citer le travail<span class="text-indigo-400">.</span>
-          </h2>
-          <p class="mt-4 text-sm leading-7 text-zinc-400">
-            Une référence BibTeX prête à être copiée dans un fichier bibliographique LaTeX. Les métadonnées sont celles de cet exemple et ne constituent pas un enregistrement DOI réel.
-          </p>
+    <section id="references" class="py-12 sm:py-16">
+      <p class="micro muted">Références / 03</p>
+      <h2 class="serif mt-2 text-3xl font-medium">Citation bibliographique</h2>
+      <p class="mt-4 max-w-xl text-xs leading-6 text-muted">
+        Exemple de référence BibTeX pour le premier essai. La citation est copiable ; elle décrit un manuscrit pédagogique non publié.
+      </p>
+
+      <div class="mt-6 border border-[#dedbd3]">
+        <div class="flex items-center justify-between gap-3 border-b border-[#dedbd3] bg-[#efede6] px-4 py-3">
+          <span class="mono text-[10px] text-[#77766f]">reference.bib</span>
+          <button id="copy-bibtex" class="inline-flex items-center gap-2 text-xs text-navy hover:underline" type="button">
+            <i data-lucide="copy" class="h-3.5 w-3.5"></i>
+            Copier
+          </button>
         </div>
-
-        <div class="reveal overflow-hidden rounded-2xl border border-white/[0.09] bg-[#0c0c0f] shadow-card">
-          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.07] bg-zinc-900/50 px-4 py-4 sm:px-6">
-            <div class="flex items-center gap-3">
-              <div class="flex gap-1.5" aria-hidden="true">
-                <span class="h-2.5 w-2.5 rounded-full bg-red-400/70"></span>
-                <span class="h-2.5 w-2.5 rounded-full bg-amber-400/70"></span>
-                <span class="h-2.5 w-2.5 rounded-full bg-emerald-400/70"></span>
-              </div>
-              <span class="font-mono text-xs text-zinc-400">reference.bib</span>
-            </div>
-            <button id="copy-bibtex" type="button" class="btn-secondary inline-flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-zinc-200">
-              <i data-lucide="copy" class="h-3.5 w-3.5"></i>
-              Copier BibTeX
-            </button>
-          </div>
-
-          <div class="code-block border-0 px-4 py-6 sm:px-7 sm:py-8">
-            <pre class="m-0"><code id="bibtex-code">@misc{martin2026convergence,
-  author       = {Martin, Alex},
+        <pre class="bibtex m-0"><code id="bibtex-code">@misc{Hugo2026series,
+  author       = {Hugo, Cousseau},
   title        = {Séries numériques et convergence :
                   critères, estimations et fondements},
   year         = {2026},
-  month        = oct,
   note         = {Essai pédagogique indépendant,
                   niveau Licence 1 Mathématiques},
   language     = {french},
-  howpublished = {Manuscrit non publié},
-  license      = {CC BY 4.0}
+  howpublished = {Manuscrit non publié}
 }</code></pre>
-          </div>
+      </div>
 
-          <div class="flex flex-col gap-3 border-t border-white/[0.07] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-            <p class="flex items-center gap-2 text-xs text-zinc-500">
-              <i data-lucide="check-circle-2" class="h-3.5 w-3.5 text-indigo-300"></i>
-              Compatible avec BibTeX et les workflows LaTeX.
-            </p>
-            <button id="copy-citation" type="button" class="inline-flex items-center gap-2 text-xs text-zinc-400 transition hover:text-white">
-              <i data-lucide="clipboard" class="h-3.5 w-3.5"></i>
-              Copier la référence textuelle
-            </button>
-          </div>
-        </div>
-
-        <div class="reveal mt-5 grid gap-4 sm:grid-cols-2">
-          <article class="surface rounded-xl p-5">
-            <div class="flex items-center gap-3">
-              <i data-lucide="fingerprint" class="h-5 w-5 text-indigo-300"></i>
-              <h3 class="text-sm font-medium text-zinc-200">Identifiant pérenne</h3>
-            </div>
-            <p class="mt-3 text-xs leading-6 text-zinc-500">Aucun DOI n'est attribué à cet exemple. Un DOI Zenodo ne doit être ajouté qu'après dépôt effectif du manuscrit.</p>
-            <a href="https://zenodo.org/" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 text-xs text-indigo-300 transition hover:text-indigo-200">
-              Découvrir Zenodo
-              <i data-lucide="external-link" class="h-3 w-3"></i>
-            </a>
-          </article>
-          <article class="surface rounded-xl p-5">
-            <div class="flex items-center gap-3">
-              <i data-lucide="scale" class="h-5 w-5 text-cyan-200"></i>
-              <h3 class="text-sm font-medium text-zinc-200">Licence ouverte</h3>
-            </div>
-            <p class="mt-3 text-xs leading-6 text-zinc-500">La licence Creative Commons Attribution 4.0 permet le partage et l'adaptation sous réserve d'attribution appropriée.</p>
-            <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener noreferrer" class="mt-4 inline-flex items-center gap-2 text-xs text-cyan-200 transition hover:text-cyan-100">
-              Lire les conditions
-              <i data-lucide="external-link" class="h-3 w-3"></i>
-            </a>
-          </article>
-        </div>
+      <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs">
+        <a href="https://www.doi.org/" target="_blank" rel="noopener noreferrer" class="text-link inline-flex items-center gap-2">
+          <i data-lucide="fingerprint" class="h-3.5 w-3.5"></i>
+          À propos des DOI
+        </a>
+        <a href="https://zenodo.org/" target="_blank" rel="noopener noreferrer" class="text-link inline-flex items-center gap-2">
+          <i data-lucide="archive" class="h-3.5 w-3.5"></i>
+          Dépôt Zenodo
+        </a>
+        <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener noreferrer" class="text-link inline-flex items-center gap-2">
+          <i data-lucide="scale" class="h-3.5 w-3.5"></i>
+          Licence CC BY 4.0
+        </a>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-white/[0.07] bg-[#08080a]">
-    <div class="container-page py-10 sm:py-12">
-      <div class="flex flex-col justify-between gap-8 md:flex-row md:items-start">
-        <div class="max-w-sm">
-          <a href="#accueil" class="inline-flex items-center gap-3">
-            <span class="flex h-9 w-9 items-center justify-center rounded-xl border border-indigo-400/20 bg-indigo-500/10 text-indigo-300">
-              <span class="text-xl font-serif italic">∑</span>
-            </span>
-            <span class="text-sm font-semibold text-zinc-100">Convergence</span>
-          </a>
-          <p class="mt-4 text-xs leading-6 text-zinc-500">
-            Un essai pédagogique indépendant sur les fondements de l'analyse réelle. La rigueur comme méthode, la clarté comme objectif.
-          </p>
-        </div>
-
-        <div class="grid grid-cols-2 gap-x-12 gap-y-7 sm:gap-x-16">
-          <div>
-            <p class="eyebrow">Explorer</p>
-            <ul class="mt-4 space-y-3 text-xs text-zinc-400">
-              <li><a class="transition hover:text-white" href="#resume">Résumé & abstract</a></li>
-              <li><a class="transition hover:text-white" href="#theoreme">Résultats mathématiques</a></li>
-              <li><a class="transition hover:text-white" href="#document">Manuscrit</a></li>
-              <li><a class="transition hover:text-white" href="#citation">Références</a></li>
-            </ul>
-          </div>
-          <div>
-            <p class="eyebrow">Ressources</p>
-            <ul class="mt-4 space-y-3 text-xs text-zinc-400">
-              <li><a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 transition hover:text-white"><i data-lucide="github" class="h-3.5 w-3.5"></i> GitHub</a></li>
-              <li><a href="https://zenodo.org/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 transition hover:text-white"><i data-lucide="database" class="h-3.5 w-3.5"></i> Zenodo</a></li>
-              <li><a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 transition hover:text-white"><i data-lucide="scale" class="h-3.5 w-3.5"></i> CC BY 4.0</a></li>
-            </ul>
-          </div>
-        </div>
+  <!-- Pied de page -->
+  <footer class="border-t border-[#dedbd3]">
+    <div class="page flex flex-col justify-between gap-4 py-7 sm:flex-row sm:items-center">
+      <div>
+        <p class="text-xs font-medium">Archives mathématiques</p>
+        <p class="mt-1 text-[10px] text-muted">Collection personnelle · France</p>
       </div>
-
-      <div class="my-8 section-divider"></div>
-
-      <div class="flex flex-col gap-3 text-[10px] text-zinc-600 sm:flex-row sm:items-center sm:justify-between">
-        <p>© 2026 Alex Martin · Projet pédagogique indépendant.</p>
-        <p class="inline-flex items-center gap-2">
-          <span class="h-1.5 w-1.5 rounded-full bg-indigo-400"></span>
-          Conçu pour la lecture scientifique.
-        </p>
+      <div class="flex flex-wrap gap-x-5 gap-y-3 text-xs">
+        <a class="footer-link inline-flex items-center gap-1.5" href="https://github.com/" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="github" class="h-3.5 w-3.5"></i> GitHub
+        </a>
+        <a class="footer-link inline-flex items-center gap-1.5" href="https://zenodo.org/" target="_blank" rel="noopener noreferrer">
+          <i data-lucide="external-link" class="h-3.5 w-3.5"></i> Zenodo
+        </a>
+        <a class="footer-link" href="#references">Références</a>
+        <a class="footer-link" href="#accueil">Haut de page ↑</a>
       </div>
+    </div>
+    <div class="page pb-6">
+      <p class="text-[10px] leading-5 text-[#96938a]">
+        Interface documentaire indépendante. Les noms d'auteur et notices d'exemple sont fictifs. Les bibliothèques externes sont chargées via CDN.
+      </p>
     </div>
   </footer>
 
-  <div id="toast" role="status" aria-live="polite" class="rounded-xl border border-white/10 bg-zinc-900 px-4 py-3 text-xs text-zinc-100 shadow-xl">
-    <span id="toast-message">Copié dans le presse-papier.</span>
-  </div>
+  <div id="toast" role="status" aria-live="polite">Référence copiée.</div>
 
   <script>
     (() => {
@@ -976,46 +739,143 @@
 
       const $ = (selector, root = document) => root.querySelector(selector);
       const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      // Icônes Lucide
-      function initIcons() {
+      /*
+       * Catalogue central.
+       *
+       * Pour publier un vrai fichier, renseigner pdf avec un chemin relatif
+       * vers le PDF commité dans le dépôt, par exemple "documents/series.pdf".
+       * L'URL doit pointer vers une ressource existante.
+       */
+      const documents = [
+        {
+          id: 'AN-001',
+          type: 'Essai',
+          discipline: 'analyse',
+          title: 'Séries numériques et convergence',
+          subtitle: 'Critères, estimations et fondements de l’analyse réelle.',
+          description: 'Introduction aux sommes partielles, aux séries de Riemann, aux critères de comparaison et au reste d’une série.',
+          abstract: 'Cet essai propose une introduction structurée à l’étude des séries numériques réelles. À partir de la notion de somme partielle, il présente la convergence, la série géométrique, la série harmonique et le critère intégral. Une attention particulière est portée aux hypothèses des théorèmes et à la distinction entre une condition nécessaire et une condition suffisante.',
+          equation: String.raw`\sum_{n=1}^{\infty}\frac{1}{n^p}\text{ converge si et seulement si }p>1.`,
+          author: 'Cousseau Hugo',
+          level: 'Licence 1',
+          year: 2026,
+          status: 'En préparation',
+          keywords: 'riemann série harmonique somme partielle critère intégral convergence analyse',
+          pdf: '',
+          github: '',
+          bibtex: 'Hugo2026series'
+        },
+        {
+          id: 'AL-002',
+          type: 'Note de cours',
+          discipline: 'analyse',
+          title: 'Continuité et limites',
+          subtitle: 'Définitions, propriétés fondamentales et démonstrations.',
+          description: 'Une synthèse des limites de fonctions, de la continuité et des théorèmes fondamentaux.',
+          abstract: 'Cette note organise les définitions de limite et de continuité autour de la formulation epsilon-delta. Des exemples élémentaires illustrent la manipulation des quantificateurs, l’unicité de la limite et les opérations sur les fonctions continues.',
+          equation: String.raw`\forall\varepsilon>0,\ \exists\delta>0:\ 0<|x-a|<\delta\Rightarrow|f(x)-L|<\varepsilon.`,
+          author: 'Cousseau Hugo',
+          level: 'Licence 1',
+          year: 2026,
+          status: 'En préparation',
+          keywords: 'limite fonction continuité epsilon delta analyse réelle',
+          pdf: '',
+          github: '',
+          bibtex: 'Hugo2026limites'
+        },
+        {
+          id: 'ALG-003',
+          type: 'Fiche',
+          discipline: 'algebre',
+          title: 'Matrices et applications linéaires',
+          subtitle: 'Premiers outils de calcul matriciel.',
+          description: 'Opérations sur les matrices, systèmes linéaires et premières propriétés des applications linéaires.',
+          abstract: 'Cette fiche rassemble les définitions et propriétés élémentaires des matrices, du produit matriciel et de la résolution des systèmes linéaires. Elle distingue les opérations de calcul des propriétés structurelles qui permettent de les justifier.',
+          equation: String.raw`A\mathbf{x}=\mathbf{b},\qquad A\in\mathcal{M}_{m,n}(\mathbb{R}).`,
+          author: 'Cousseau Hugo',
+          level: 'Licence 1',
+          year: 2026,
+          status: 'En préparation',
+          keywords: 'matrice algèbre système linéaire application linéaire',
+          pdf: '',
+          github: '',
+          bibtex: 'Hugo2026matrices'
+        },
+        {
+          id: 'LOG-004',
+          type: 'Fiche',
+          discipline: 'logique',
+          title: 'Logique et méthodes de démonstration',
+          subtitle: 'Quantificateurs, implications et raisonnement.',
+          description: 'Une introduction aux raisonnements directs, par contraposée et par l’absurde.',
+          abstract: 'Cette fiche étudie les connecteurs logiques, les quantificateurs et les méthodes usuelles de démonstration. Elle met en évidence les erreurs de raisonnement fréquentes, en particulier la confusion entre implication et équivalence.',
+          equation: String.raw`(P\Rightarrow Q)\ \Longleftrightarrow\ (\neg Q\Rightarrow\neg P).`,
+          author: 'Cousseau Hugo',
+          level: 'Licence 1',
+          year: 2026,
+          status: 'En préparation',
+          keywords: 'logique implication contraposée quantificateur démonstration',
+          pdf: '',
+          github: '',
+          bibtex: 'Hugo2026logique'
+        },
+        {
+          id: 'GEO-005',
+          type: 'Note de cours',
+          discipline: 'geometrie',
+          title: 'Géométrie vectorielle du plan',
+          subtitle: 'Vecteurs, coordonnées et produits scalaires.',
+          description: 'Les outils de base de la géométrie analytique dans le plan euclidien.',
+          abstract: 'Cette note présente les vecteurs du plan, leurs coordonnées dans une base, le produit scalaire et ses interprétations géométriques. Les calculs sont reliés aux propriétés de longueur, d’orthogonalité et de projection.',
+          equation: String.raw`\mathbf{u}\cdot\mathbf{v}=\|\mathbf{u}\|\,\|\mathbf{v}\|\cos\theta.`,
+          author: 'Cousseau Hugo',
+          level: 'Licence 1',
+          year: 2026,
+          status: 'En préparation',
+          keywords: 'géométrie vecteur produit scalaire orthogonalité plan',
+          pdf: '',
+          github: '',
+          bibtex: 'Hugo2026geometrie'
+        }
+      ];
+
+      const disciplineLabels = {
+        analyse: 'Analyse',
+        algebre: 'Algèbre',
+        geometrie: 'Géométrie',
+        logique: 'Logique'
+      };
+
+      let activeType = 'all';
+      let selectedDocument = documents[0];
+      let toastTimer;
+
+      function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, char => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        })[char]);
+      }
+
+      function icon(name, extraClass = 'h-4 w-4') {
+        const safeName = escapeHTML(name);
+        const safeClass = escapeHTML(extraClass);
+        return `<i data-lucide="${safeName}" class="${safeClass}" aria-hidden="true"></i>`;
+      }
+
+      function initIcons(root = document) {
         if (window.lucide) {
-          window.lucide.createIcons();
+          window.lucide.createIcons({ root });
         }
       }
 
-      // Navigation mobile
-      const menuToggle = $('#menu-toggle');
-      const mobileMenu = $('#mobile-menu');
-
-      menuToggle.addEventListener('click', () => {
-        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-        menuToggle.setAttribute('aria-expanded', String(!isExpanded));
-        menuToggle.setAttribute('aria-label', isExpanded ? 'Ouvrir le menu' : 'Fermer le menu');
-        mobileMenu.classList.toggle('hidden', isExpanded);
-
-        const icon = $('i', menuToggle);
-        if (icon) icon.setAttribute('data-lucide', isExpanded ? 'menu' : 'x');
-        initIcons();
-      });
-
-      $$('#mobile-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-          mobileMenu.classList.add('hidden');
-          menuToggle.setAttribute('aria-expanded', 'false');
-          menuToggle.setAttribute('aria-label', 'Ouvrir le menu');
-          const icon = $('i', menuToggle);
-          if (icon) icon.setAttribute('data-lucide', 'menu');
-          initIcons();
-        });
-      });
-
-      // Rendu LaTeX
-      function renderMath() {
-        if (!window.renderMathInElement) return false;
-
-        window.renderMathInElement(document.body, {
+      function renderMath(root = document) {
+        if (!window.renderMathInElement) return;
+        window.renderMathInElement(root, {
           delimiters: [
             { left: '$$', right: '$$', display: true },
             { left: '\\[', right: '\\]', display: true },
@@ -1025,85 +885,153 @@
           strict: 'ignore',
           ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
         });
-        return true;
       }
 
-      function waitForMath() {
-        if (renderMath()) return;
-        window.setTimeout(waitForMath, 100);
+      function getFilteredDocuments() {
+        const query = $('#search-input').value
+          .trim()
+          .toLocaleLowerCase('fr');
+
+        const discipline = $('#discipline-select').value;
+
+        return documents.filter(doc => {
+          const matchesType = activeType === 'all' || doc.type === activeType;
+          const matchesDiscipline = discipline === 'all' || doc.discipline === discipline;
+          const searchable = [
+            doc.id,
+            doc.title,
+            doc.subtitle,
+            doc.description,
+            doc.abstract,
+            doc.type,
+            doc.discipline,
+            doc.keywords
+          ].join(' ').toLocaleLowerCase('fr');
+
+          return matchesType && matchesDiscipline && searchable.includes(query);
+        });
       }
-      waitForMath();
 
-      // Démonstration dépliable
-      const proofToggle = $('#proof-toggle');
-      const proofContent = $('#proof-content');
-      const proofChevron = $('#proof-chevron');
+      function renderCatalogue() {
+        const list = $('#document-list');
+        const filtered = getFilteredDocuments();
 
-      proofToggle.addEventListener('click', () => {
-        const opening = proofToggle.getAttribute('aria-expanded') !== 'true';
-        proofToggle.setAttribute('aria-expanded', String(opening));
-        proofContent.classList.toggle('hidden', !opening);
-        proofChevron.style.transform = opening ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
+        $('#result-count').textContent =
+          `${String(filtered.length).padStart(2, '0')} référence${filtered.length > 1 ? 's' : ''}`;
 
-      // Série de Riemann : somme partielle de N termes.
-      // Une limite de 1000 termes garde le calcul léger sur mobile.
-      const slider = $('#p-slider');
-      const pValue = $('#p-value');
-      const sumValue = $('#sum-value');
-      const convergenceValue = $('#convergence-value');
-      const convergenceHelp = $('#convergence-help');
-      const TERM_COUNT = 1000;
-
-      function calculateSeries(p) {
-        let sum = 0;
-        for (let n = 1; n <= TERM_COUNT; n++) {
-          sum += Math.pow(n, -p);
+        if (filtered.length === 0) {
+          list.innerHTML = `
+            <div class="empty-state">
+              Aucun document ne correspond à cette recherche.
+              <p class="mt-2 font-sans text-xs">Essayez un autre terme ou réinitialisez les filtres.</p>
+              <button type="button" id="reset-search" class="text-link mt-3 font-sans text-xs">Effacer les filtres</button>
+            </div>`;
+          $('#reset-search').addEventListener('click', () => {
+            $('#search-input').value = '';
+            $('#discipline-select').value = 'all';
+            setActiveType('all');
+            renderCatalogue();
+          });
+          return;
         }
-        return sum;
-      }
 
-      function updateSeries() {
-        const p = Number(slider.value);
-        const sum = calculateSeries(p);
-        const converges = p > 1;
+        list.innerHTML = filtered.map(doc => {
+          const statusClass = doc.pdf ? 'published' : '';
+          const statusText = doc.pdf ? 'PDF disponible' : 'En préparation';
 
-        pValue.textContent = p.toFixed(2).replace('.', ',');
-        sumValue.textContent = sum.toLocaleString('fr-FR', {
-          minimumFractionDigits: 3,
-          maximumFractionDigits: 3
+          return `
+            <article class="document-row">
+              <div class="document-number">${escapeHTML(doc.id)}</div>
+              <div class="min-w-0">
+                <p class="type-label">${escapeHTML(doc.type)} · ${escapeHTML(disciplineLabels[doc.discipline])}</p>
+                <button type="button" class="document-title mt-2 block text-left hover:text-[#344f72] focus-visible:outline-offset-2" data-open-document="${escapeHTML(doc.id)}">
+                  ${escapeHTML(doc.title)}
+                </button>
+                <p class="document-description">${escapeHTML(doc.description)}</p>
+                <div class="document-meta">
+                  <span>${escapeHTML(doc.level)}</span>
+                  <span>${escapeHTML(String(doc.year))}</span>
+                  <span>${escapeHTML(doc.author)}</span>
+                </div>
+              </div>
+              <div class="row-arrow flex flex-col items-end gap-3 pt-1">
+                <span class="status ${statusClass}">${statusText}</span>
+                <button type="button" data-open-document="${escapeHTML(doc.id)}" class="mt-2 text-[#8b8981] hover:text-[#344f72]" aria-label="Ouvrir la notice : ${escapeHTML(doc.title)}">
+                  ${icon('arrow-up-right', 'h-4 w-4')}
+                </button>
+              </div>
+            </article>`;
+        }).join('');
+
+        $$('[data-open-document]', list).forEach(button => {
+          button.addEventListener('click', () => {
+            const doc = documents.find(item => item.id === button.dataset.openDocument);
+            if (doc) openDocument(doc);
+          });
         });
 
-        convergenceValue.textContent = converges ? 'Convergente' : 'Divergente';
-        convergenceValue.classList.toggle('text-emerald-300', converges);
-        convergenceValue.classList.toggle('text-amber-300', !converges);
-
-        convergenceHelp.textContent = converges
-          ? 'La série infinie converge.'
-          : p === 1
-            ? 'Cas limite : série harmonique.'
-            : 'Les sommes partielles ne sont pas bornées.';
-
-        slider.setAttribute('aria-valuetext', 'p égal à ' + p.toFixed(2));
+        initIcons(list);
       }
 
-      slider.addEventListener('input', updateSeries);
-      updateSeries();
+      function setActiveType(type) {
+        activeType = type;
 
-      // Notification discrète
-      let toastTimer;
+        $$('.filter-button').forEach(button => {
+          const active = button.dataset.type === type;
+          button.classList.toggle('active', active);
+          button.setAttribute('aria-pressed', String(active));
+        });
+      }
+
+      function resourceLink(label, href, iconName) {
+        const safeLabel = escapeHTML(label);
+        const safeHref = escapeHTML(href);
+        return `<a class="secondary-button text-xs" href="${safeHref}" target="_blank" rel="noopener noreferrer">${icon(iconName, 'h-3.5 w-3.5')}${safeLabel}${icon('external-link', 'h-3 w-3')}</a>`;
+      }
+
+      function openDocument(doc) {
+        selectedDocument = doc;
+
+        $('#detail-code').textContent = `${doc.id} · ${doc.type.toUpperCase()}`;
+        $('#detail-title').textContent = doc.title;
+        $('#detail-subtitle').textContent = doc.subtitle;
+        $('#detail-author').textContent = doc.author;
+        $('#detail-discipline').textContent = disciplineLabels[doc.discipline];
+        $('#detail-level').textContent = doc.level;
+        $('#detail-year').textContent = String(doc.year);
+        $('#detail-abstract').textContent = doc.abstract;
+
+        // Les délimiteurs KaTeX sont insérés depuis les notices locales.
+        $('#detail-equation').textContent = '\\[' + doc.equation + '\\]';
+
+        const resources = [];
+        if (doc.pdf) resources.push(resourceLink('Télécharger le PDF', doc.pdf, 'file-down'));
+        if (doc.github) resources.push(resourceLink('Code source', doc.github, 'github'));
+
+        $('#detail-resources').innerHTML = resources.length
+          ? resources.join('')
+          : '<span class="text-xs text-muted">Aucun fichier publié pour cette notice.</span>';
+
+        $('#detail-panel').hidden = false;
+        renderMath($('#detail-equation'));
+        initIcons($('#detail-resources'));
+        $('#detail-panel').scrollIntoView({
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+          block: 'start'
+        });
+      }
+
       function showToast(message) {
         const toast = $('#toast');
-        $('#toast-message').textContent = message;
+        toast.textContent = message;
         toast.classList.add('visible');
 
         window.clearTimeout(toastTimer);
         toastTimer = window.setTimeout(() => {
           toast.classList.remove('visible');
-        }, 2400);
+        }, 2200);
       }
 
-      // Presse-papier avec solution de repli
       async function copyText(text) {
         try {
           if (navigator.clipboard && window.isSecureContext) {
@@ -1113,225 +1041,83 @@
             textarea.value = text;
             textarea.setAttribute('readonly', '');
             textarea.style.position = 'fixed';
-            textarea.style.left = '-9999px';
             textarea.style.top = '0';
+            textarea.style.left = '-9999px';
             document.body.appendChild(textarea);
             textarea.select();
 
-            const success = document.execCommand('copy');
+            const copied = document.execCommand('copy');
             textarea.remove();
 
-            if (!success) throw new Error('Copie indisponible');
+            if (!copied) throw new Error('Copie non disponible');
           }
-          showToast('Copié dans le presse-papier.');
-        } catch (error) {
-          showToast('Copie impossible : sélectionnez le texte manuellement.');
+
+          showToast('Référence copiée dans le presse-papier.');
+        } catch {
+          showToast('Copie indisponible. Sélectionnez le texte manuellement.');
         }
       }
 
-      const bibtex = `@misc{martin2026convergence,
-  author       = {Martin, Alex},
+      const bibtex = `@misc{Hugo2026series,
+  author       = {Hugo, Cousseau},
   title        = {Séries numériques et convergence :
                   critères, estimations et fondements},
   year         = {2026},
-  month        = oct,
   note         = {Essai pédagogique indépendant,
                   niveau Licence 1 Mathématiques},
   language     = {french},
-  howpublished = {Manuscrit non publié},
-  license      = {CC BY 4.0}
+  howpublished = {Manuscrit non publié}
 }`;
 
-      const plainCitation = 'Martin, A. (2026). Séries numériques et convergence : critères, estimations et fondements. Essai pédagogique indépendant, niveau Licence 1 Mathématiques. Manuscrit non publié.';
+      $('#search-input').addEventListener('input', renderCatalogue);
+      $('#discipline-select').addEventListener('change', renderCatalogue);
 
-      $('#copy-bibtex').addEventListener('click', () => copyText(bibtex));
-      $('#copy-citation').addEventListener('click', () => copyText(plainCitation));
-
-      // Le fichier n'est pas simulé : on informe honnêtement le visiteur.
-      $('#pdf-download').addEventListener('click', () => {
-        showToast('Le PDF intégral n’est pas encore publié.');
+      $$('.filter-button').forEach(button => {
+        button.addEventListener('click', () => {
+          setActiveType(button.dataset.type);
+          renderCatalogue();
+        });
       });
 
-      // Animations d'apparition au scroll
-      function initAnimations() {
-        if (reducedMotion || !window.gsap) return;
-
-        window.gsap.registerPlugin(window.ScrollTrigger);
-
-        window.gsap.from('.hero-content > *', {
-          opacity: 0,
-          y: 18,
-          duration: 0.85,
-          stagger: 0.1,
-          ease: 'power3.out',
-          delay: 0.1
+      $('#close-detail').addEventListener('click', () => {
+        $('#detail-panel').hidden = true;
+        $('#catalogue').scrollIntoView({
+          behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+          block: 'start'
         });
+      });
 
-        window.gsap.utils.toArray('.reveal').forEach(element => {
-          window.gsap.from(element, {
-            opacity: 0,
-            y: 22,
-            duration: 0.75,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: element,
-              start: 'top 88%',
-              once: true
-            }
-          });
-        });
-      }
+      $('#copy-bibtex').addEventListener('click', () => {
+        const citation = selectedDocument
+          ? `@misc{${selectedDocument.bibtex},
+  author       = {Cousseau, Hugo},
+  title        = {${selectedDocument.title}},
+  year         = {${selectedDocument.year}},
+  note         = {${selectedDocument.type}, niveau ${selectedDocument.level}},
+  language     = {french},
+  howpublished = {Manuscrit non publié}
+}`
+          : bibtex;
 
-      // Fond particulaire : animation limitée, DPR plafonné et nettoyage du canvas.
-      function initCanvas() {
-        const canvas = $('#math-canvas');
-        const ctx = canvas.getContext('2d', { alpha: true });
-        if (!ctx || reducedMotion) return;
+        copyText(citation);
+      });
 
-        let width = 0;
-        let height = 0;
-        let particles = [];
-        let rafId = 0;
-        let lastFrame = 0;
-        let visible = true;
-        let pointer = { x: -1000, y: -1000 };
-        const maxDpr = 1.5;
-        const step = 1000 / 30;
-        const pointerRadius = 150;
-
-        function resize() {
-          const rect = canvas.getBoundingClientRect();
-          width = Math.max(1, rect.width);
-          height = Math.max(1, rect.height);
-          const dpr = Math.min(window.devicePixelRatio || 1, maxDpr);
-
-          canvas.width = Math.round(width * dpr);
-          canvas.height = Math.round(height * dpr);
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-          const count = Math.min(75, Math.max(25, Math.round(width / 17)));
-          particles = Array.from({ length: count }, () => ({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            vx: (Math.random() - .5) * .16,
-            vy: (Math.random() - .5) * .16,
-            r: Math.random() * 1.2 + .5
-          }));
-        }
-
-        function draw(timestamp) {
-          rafId = 0;
-          if (!visible || document.hidden) return;
-          if (timestamp - lastFrame < step) {
-            rafId = requestAnimationFrame(draw);
-            return;
-          }
-          lastFrame = timestamp;
-          ctx.clearRect(0, 0, width, height);
-
-          for (const p of particles) {
-            p.x += p.vx;
-            p.y += p.vy;
-
-            if (p.x < -5) p.x = width + 5;
-            if (p.x > width + 5) p.x = -5;
-            if (p.y < -5) p.y = height + 5;
-            if (p.y > height + 5) p.y = -5;
-
-            const dx = pointer.x - p.x;
-            const dy = pointer.y - p.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance < pointerRadius && distance > 1) {
-              p.x -= dx / distance * .08;
-              p.y -= dy / distance * .08;
-            }
-
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(165,180,252,.45)';
-            ctx.fill();
-          }
-
-          for (let i = 0; i < particles.length; i++) {
-            for (let j = i + 1; j < particles.length; j++) {
-              const a = particles[i];
-              const b = particles[j];
-              const dx = a.x - b.x;
-              const dy = a.y - b.y;
-              const d2 = dx * dx + dy * dy;
-              const maxDistance = 112;
-
-              if (d2 < maxDistance * maxDistance) {
-                const distance = Math.sqrt(d2);
-                const alpha = (1 - distance / maxDistance) * .17;
-                ctx.beginPath();
-                ctx.moveTo(a.x, a.y);
-                ctx.lineTo(b.x, b.y);
-                ctx.strokeStyle = `rgba(129,140,248,${alpha})`;
-                ctx.lineWidth = .7;
-                ctx.stroke();
-              }
-            }
-          }
-
-          rafId = requestAnimationFrame(draw);
-        }
-
-        function start() {
-          if (!visible || document.hidden || rafId) return;
-          rafId = requestAnimationFrame(draw);
-        }
-
-        function stop() {
-          if (rafId) cancelAnimationFrame(rafId);
-          rafId = 0;
-        }
-
-        const hero = $('#accueil');
-        hero.addEventListener('pointermove', event => {
-          const rect = canvas.getBoundingClientRect();
-          pointer.x = event.clientX - rect.left;
-          pointer.y = event.clientY - rect.top;
-        }, { passive: true });
-
-        hero.addEventListener('pointerleave', () => {
-          pointer.x = -1000;
-          pointer.y = -1000;
-        }, { passive: true });
-
-        document.addEventListener('visibilitychange', () => {
-          if (document.hidden) stop();
-          else start();
-        });
-
-        if ('IntersectionObserver' in window) {
-          const observer = new IntersectionObserver(entries => {
-            visible = entries[0].isIntersecting;
-            if (visible) start();
-            else stop();
-          }, { threshold: 0 });
-          observer.observe(hero);
-        }
-
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-          window.clearTimeout(resizeTimer);
-          resizeTimer = window.setTimeout(() => {
-            resize();
-            start();
-          }, 120);
-        }, { passive: true });
-
-        resize();
-        start();
-      }
-
-      // Démarrage après le chargement des dépendances.
+      // Initialisation après le chargement des bibliothèques CDN.
       function boot() {
         initIcons();
-        initAnimations();
-        initCanvas();
+        renderCatalogue();
+
+        if (window.renderMathInElement) {
+          renderMath(document);
+        } else {
+          window.addEventListener('load', () => renderMath(document), { once: true });
+        }
+
+        // Rend le bouton de citation cohérent avec la notice affichée.
+        $('#copy-bibtex').addEventListener('contextmenu', event => {
+          event.preventDefault();
+          copyText(bibtex);
+        });
       }
 
       if (document.readyState === 'loading') {
