@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f7f6f2">
-  <meta name="description" content="Archives mathématiques de Hugo COUSSEAU — collection d'essais, de notes et de travaux en mathématiques.">
-  <title>Archives mathématiques — Hugo COUSSEAU</title>
+  <meta name="description" content="Essais et travaux mathématiques de Hugo COUSSEAU.">
+  <title>Hugo COUSSEAU — Travaux Mathématiques</title>
 
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -18,8 +18,7 @@
             ink: '#292b2e',
             muted: '#77766f',
             line: '#dedbd3',
-            navy: '#344f72',
-            pale: '#eeece5'
+            navy: '#344f72'
           },
           fontFamily: {
             sans: ['Inter', 'Arial', 'sans-serif'],
@@ -46,7 +45,6 @@
 
   <style>
     :root {
-      color-scheme: light;
       --paper: #f7f6f2;
       --ink: #292b2e;
       --muted: #77766f;
@@ -60,7 +58,6 @@
     html {
       background: var(--paper);
       scroll-behavior: smooth;
-      scroll-padding-top: 90px;
     }
 
     body {
@@ -72,302 +69,85 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    ::selection {
-      color: #fff;
-      background: #526b8a;
-    }
-
-    a { color: inherit; text-decoration: none; }
-
-    button, input, select { font: inherit; }
-
-    button:focus-visible,
-    a:focus-visible,
-    input:focus-visible,
-    select:focus-visible {
-      outline: 2px solid #526b8a;
-      outline-offset: 3px;
-    }
-
     .page {
-      width: min(100% - 40px, 850px);
+      width: min(100% - 40px, 780px);
       margin-inline: auto;
     }
 
     .serif { font-family: var(--serif); }
-
-    .mono {
-      font-family: "IBM Plex Mono", monospace;
-      font-variant-numeric: tabular-nums;
-    }
+    .mono { font-family: "IBM Plex Mono", monospace; }
 
     .micro {
       font-family: "IBM Plex Mono", monospace;
       font-size: 10px;
-      line-height: 1.6;
-      letter-spacing: .045em;
+      letter-spacing: .05em;
       text-transform: uppercase;
+      color: var(--muted);
     }
-
-    .muted { color: var(--muted); }
 
     .rule {
       height: 1px;
       background: var(--line);
     }
 
-    .masthead {
-      border-bottom: 1px solid var(--line);
-    }
-
-    .brand-mark {
-      width: 34px;
-      height: 34px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #c9c5bb;
-      color: var(--navy);
-      font-family: var(--serif);
-      font-size: 23px;
-      flex-shrink: 0;
-    }
-
-    .nav-link {
-      color: #66665f;
-      transition: color .15s ease;
-    }
-
-    .nav-link:hover,
-    .nav-link[aria-current="page"] {
-      color: var(--navy);
-    }
-
     .hero-title {
       font-family: var(--serif);
       font-weight: 400;
-      letter-spacing: -.045em;
-      line-height: 1.08;
-    }
-
-    .text-link {
-      color: var(--navy);
-      text-decoration: underline;
-      text-decoration-color: #c0cbd7;
-      text-underline-offset: 3px;
-    }
-
-    .text-link:hover {
-      text-decoration-color: var(--navy);
+      letter-spacing: -.03em;
+      line-height: 1.15;
     }
 
     .primary-button {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      gap: 9px;
-      min-height: 40px;
-      padding: 10px 14px;
+      gap: 8px;
+      padding: 8px 14px;
       border: 1px solid #344f72;
       background: #344f72;
       color: #fff;
+      font-size: 12px;
       transition: background .15s ease;
     }
-
     .primary-button:hover { background: #263e5b; }
 
     .secondary-button {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 8px;
-      min-height: 40px;
-      padding: 10px 14px;
+      padding: 8px 14px;
       border: 1px solid #d5d1c7;
       background: transparent;
       color: #41434a;
+      font-size: 12px;
       transition: background .15s ease;
     }
-
     .secondary-button:hover { background: #eeece5; }
 
-    .field {
-      min-height: 40px;
-      width: 100%;
-      border: 1px solid #d8d5cc;
-      border-radius: 0;
-      background: #fbfaf7;
-      color: var(--ink);
-      padding: 9px 11px;
-      outline-offset: 2px;
-    }
-
-    .field::placeholder { color: #96938a; }
-
-    .document-row {
-      display: grid;
-      grid-template-columns: 66px minmax(0, 1fr) auto;
-      gap: 16px;
-      align-items: start;
-      padding: 23px 12px;
-      margin-inline: -12px;
-      border-bottom: 1px solid var(--line);
-      transition: background .15s ease;
-    }
-
-    .document-row:first-child {
-      border-top: 1px solid var(--line);
-    }
-
-    .document-row:hover {
-      background: rgba(235, 233, 225, .55);
-    }
-
-    .document-number {
-      padding-top: 3px;
-      color: #8b8981;
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 11px;
-    }
-
-    .document-title {
-      font-family: var(--serif);
-      font-size: 21px;
-      font-weight: 500;
-      line-height: 1.3;
-      letter-spacing: -.015em;
-      color: #292b2e;
-    }
-
-    .document-description {
-      max-width: 520px;
-      margin-top: 7px;
-      color: #77766f;
-      font-size: 12px;
-      line-height: 1.8;
-    }
-
-    .document-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px 12px;
-      margin-top: 10px;
-      color: #77766f;
-      font-size: 10px;
-    }
-
-    .document-meta span + span::before {
-      content: "·";
-      margin-right: 12px;
-      color: #aaa69c;
-    }
-
-    .type-label {
-      display: inline-block;
-      color: var(--navy);
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 9px;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-    }
-
-    .status {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: #77766f;
-      font-size: 10px;
-      white-space: nowrap;
-    }
-
-    .status::before {
-      content: "";
-      display: inline-block;
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: #a8a49a;
-      flex-shrink: 0;
-    }
-
-    .status.published::before { background: #66836a; }
-
-    .filter-button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 32px;
-      padding: 6px 10px;
-      border: 1px solid transparent;
-      color: #77766f;
-      font-size: 11px;
-      transition: all .15s ease;
-    }
-
-    .filter-button:hover {
-      color: var(--ink);
-      background: #eeece5;
-    }
-
-    .filter-button.active {
-      border-color: #d4d1c7;
-      background: #eeece5;
-      color: #344f72;
-    }
-
-    .detail-panel {
+    .paper-card {
       border: 1px solid var(--line);
       background: #fbfaf7;
+      padding: 24px;
+      margin-bottom: 24px;
     }
 
-    .detail-panel[hidden] { display: none; }
-
-    .detail-content {
-      font-family: var(--serif);
-      font-size: 15px;
-      line-height: 1.95;
-      color: #55554f;
-    }
-
-    .math-panel {
-      overflow-x: auto;
-      background: #f1efe8;
-      border: 1px solid #e3dfd5;
-      padding: 18px 12px;
-      text-align: center;
-    }
-
-    .math-panel .katex {
-      font-size: clamp(.82rem, 2.5vw, 1.05rem);
-    }
-
-    .bibtex {
+    .bibtex-box {
       overflow-x: auto;
       background: #efede6;
       border: 1px solid #dedbd3;
-      padding: 18px;
+      padding: 14px;
       color: #454955;
       font-family: "IBM Plex Mono", monospace;
       font-size: 11px;
-      line-height: 1.9;
+      line-height: 1.8;
       white-space: pre;
-      tab-size: 2;
     }
-
-    .footer-link {
-      color: #77766f;
-      transition: color .15s ease;
-    }
-
-    .footer-link:hover { color: var(--navy); }
 
     #toast {
       position: fixed;
       bottom: 20px;
       left: 50%;
       z-index: 100;
-      max-width: calc(100vw - 32px);
-      padding: 11px 16px;
+      padding: 10px 16px;
       border: 1px solid #d5d1c7;
       background: #fbfaf7;
       color: #292b2e;
@@ -375,294 +155,195 @@
       opacity: 0;
       pointer-events: none;
       transform: translate(-50%, 6px);
-      transition: opacity .18s ease, transform .18s ease;
+      transition: all .2s ease;
     }
-
     #toast.visible {
       opacity: 1;
       transform: translate(-50%, 0);
-    }
-
-    .empty-state {
-      padding: 48px 16px;
-      border-block: 1px solid var(--line);
-      color: var(--muted);
-      text-align: center;
-    }
-
-    @media (max-width: 560px) {
-      .page { width: calc(100% - 32px); }
-
-      .document-row {
-        grid-template-columns: 38px minmax(0, 1fr);
-        gap: 10px;
-        padding: 20px 8px;
-        margin-inline: -8px;
-      }
-
-      .document-row .row-arrow { display: none; }
-      .document-title { font-size: 19px; }
-      .hero-title { font-size: clamp(37px, 10vw, 53px); }
-      .document-description { font-size: 12px; }
-      .bibtex { padding: 14px; font-size: 10px; }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after {
-        animation-duration: .01ms !important;
-        transition-duration: .01ms !important;
-      }
     }
   </style>
 </head>
 
 <body>
-  <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:p-3">
-    Aller au contenu
-  </a>
 
   <!-- En-tête -->
-  <header class="masthead">
-    <div class="page flex min-h-[76px] items-center justify-between gap-5">
-      <a href="#accueil" class="flex items-center gap-3" aria-label="Hugo COUSSEAU, accueil">
-        <span class="brand-mark" aria-hidden="true">∑</span>
-        <span>
-          <span class="block text-[13px] font-semibold tracking-[-.025em]">Hugo COUSSEAU</span>
-          <span class="mt-1 block text-[10px] text-muted">Archives mathématiques</span>
-        </span>
+  <header class="border-b border-line py-5">
+    <div class="page flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <span class="flex h-8 w-8 items-center justify-center border border-[#c9c5bb] font-serif text-xl text-navy">∑</span>
+        <div>
+          <span class="block text-sm font-semibold tracking-tight">Hugo COUSSEAU</span>
+          <span class="block text-[10px] text-muted">Essais & Travaux Mathématiques</span>
+        </div>
       </a>
 
-      <nav class="hidden items-center gap-5 text-xs sm:flex" aria-label="Navigation principale">
-        <a href="#catalogue" class="nav-link">Catalogue</a>
-        <a href="#a-propos" class="nav-link">À propos</a>
-        <a href="#references" class="nav-link">Références</a>
+      <nav class="flex gap-4 text-xs text-[#66665f]">
+        <a href="#travaux" class="hover:text-navy">Travaux</a>
+        <a href="#a-propos" class="hover:text-navy">À propos</a>
       </nav>
-
-      <a href="#catalogue" class="inline-flex items-center gap-2 text-xs text-navy sm:hidden">
-        Catalogue <i data-lucide="arrow-down" class="h-3.5 w-3.5"></i>
-      </a>
     </div>
   </header>
 
-  <main id="contenu" class="page">
-    <!-- Présentation -->
-    <section id="accueil" class="pb-10 pt-14 sm:pb-12 sm:pt-20">
-      <p class="micro muted">Travaux & Essais d'Étudiant</p>
+  <main class="page">
+    <!-- Hero Section -->
+    <section class="py-12 sm:py-16">
+      <p class="micro">Espace personnel de publication</p>
 
-      <h1 class="hero-title mt-5 max-w-[680px] text-5xl sm:text-[62px]">
-        Notes, essais<br class="hidden sm:block">
-        <span class="text-[#777b80]">et mathématiques.</span>
+      <h1 class="hero-title mt-4 text-4xl sm:text-5xl">
+        Notes et essais mathématiques.
       </h1>
 
-      <p class="serif mt-6 max-w-[590px] text-lg leading-[1.85] text-[#65645f] sm:text-xl">
-        Espace personnel de publication de <strong>Hugo COUSSEAU</strong>. Une collection indépendante de documents rédigés au fil du parcours académique : démonstrations, synthèses et travaux d'analyse ou d'algèbre.
+      <p class="serif mt-5 max-w-xl text-lg text-[#65645f]">
+        Bienvenue. Cet espace me sert à déposer occasionnellement mes travaux d'étude, synthèses et essais rédigés en parallèle de mon parcours en mathématiques.
       </p>
 
-      <div class="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted">
-        <span class="inline-flex items-center gap-2">
+      <div class="mt-6 flex flex-wrap items-center gap-4 text-xs text-muted">
+        <span class="inline-flex items-center gap-1.5">
           <i data-lucide="graduation-cap" class="h-4 w-4 text-navy"></i>
-          Licence 1 · Mathématiques
+          Étudiant en Mathématiques (L1)
         </span>
-        <span class="inline-flex items-center gap-2">
-          <i data-lucide="map-pin" class="h-4 w-4"></i>
-          France
+        <span class="inline-flex items-center gap-1.5">
+          <i data-lucide="shield-check" class="h-4 w-4 text-navy"></i>
+          Open Access (CC BY 4.0)
         </span>
       </div>
 
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#catalogue" class="primary-button text-xs">
-          Parcourir les documents
-          <i data-lucide="arrow-down" class="h-3.5 w-3.5"></i>
-        </a>
-        <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="secondary-button text-xs">
+      <div class="mt-8 flex gap-3">
+        <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="secondary-button">
           <i data-lucide="github" class="h-4 w-4"></i>
           Mon GitHub
-          <i data-lucide="arrow-up-right" class="h-3 w-3"></i>
+          <i data-lucide="external-link" class="h-3 w-3"></i>
         </a>
       </div>
     </section>
 
     <div class="rule"></div>
 
-    <!-- Catalogue -->
-    <section id="catalogue" class="py-12 sm:py-16">
-      <div class="flex flex-wrap items-end justify-between gap-4">
+    <!-- Section Publications -->
+    <section id="travaux" class="py-12">
+      <div class="mb-8 flex items-baseline justify-between">
         <div>
-          <p class="micro muted">Index général</p>
-          <h2 class="serif mt-2 text-3xl font-medium tracking-tight">Catalogue des travaux</h2>
+          <p class="micro">Publications</p>
+          <h2 class="serif text-2xl font-medium">Dépôts récents</h2>
         </div>
-        <p id="result-count" class="mono text-[10px] text-muted" aria-live="polite">00 référence</p>
+        <span id="doc-count" class="mono text-xs text-muted">0 document</span>
       </div>
 
-      <p class="mt-4 max-w-xl text-xs leading-6 text-muted">
-        Retrouvez ici les essais, notes de cours et synthèses rédigés.
-      </p>
-
-      <!-- Recherche et filtres -->
-      <div class="mt-7 grid gap-3 sm:grid-cols-[1fr_auto]">
-        <label class="relative block">
-          <span class="sr-only">Rechercher un document</span>
-          <i data-lucide="search" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#96938a]"></i>
-          <input id="search-input" class="field pl-9 text-xs" type="search" placeholder="Titre, mot-clé, thème…" autocomplete="off">
-        </label>
-
-        <label class="sr-only" for="discipline-select">Filtrer par discipline</label>
-        <select id="discipline-select" class="field text-xs sm:w-[185px]">
-          <option value="all">Toutes les disciplines</option>
-          <option value="analyse">Analyse</option>
-          <option value="algebre">Algèbre</option>
-          <option value="geometrie">Géométrie</option>
-          <option value="logique">Logique</option>
-        </select>
-      </div>
-
-      <div class="mt-4 flex flex-wrap gap-1" role="group" aria-label="Filtrer par type de document">
-        <button class="filter-button active" data-type="all" aria-pressed="true">Tous les types</button>
-        <button class="filter-button" data-type="Essai" aria-pressed="false">Essais</button>
-        <button class="filter-button" data-type="Note de cours" aria-pressed="false">Notes de cours</button>
-        <button class="filter-button" data-type="Fiche" aria-pressed="false">Fiches</button>
-      </div>
-
-      <!-- Les entrées seront générées dynamiquement par le script -->
-      <div id="document-list" class="mt-5" aria-live="polite"></div>
+      <!-- Liste dynamique des documents -->
+      <div id="document-list"></div>
     </section>
 
     <div class="rule"></div>
 
-    <!-- Notice détaillée (Masquée par défaut tant qu'aucun document n'est ouvert) -->
-    <section id="notice" class="py-12 sm:py-16">
-      <div id="detail-panel" class="detail-panel p-5 sm:p-8" hidden>
-        <div class="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p id="detail-code" class="micro text-navy">CODE</p>
-            <h2 id="detail-title" class="serif mt-3 text-3xl leading-tight sm:text-4xl">Titre du document</h2>
-            <p id="detail-subtitle" class="mt-3 text-xs leading-6 text-muted">Sous-titre explicatif.</p>
-          </div>
-          <button id="close-detail" class="secondary-button text-xs" type="button">
-            Fermer <i data-lucide="x" class="h-3.5 w-3.5"></i>
-          </button>
-        </div>
+    <!-- Section À propos -->
+    <section id="a-propos" class="py-12">
+      <p class="micro">Démarche</p>
+      <h2 class="serif text-2xl font-medium">À propos</h2>
 
-        <div class="my-6 rule"></div>
-
-        <dl class="grid grid-cols-2 gap-x-6 gap-y-5 sm:grid-cols-4">
-          <div>
-            <dt class="micro muted">Auteur</dt>
-            <dd id="detail-author" class="mt-2 text-xs">Hugo COUSSEAU</dd>
-          </div>
-          <div>
-            <dt class="micro muted">Discipline</dt>
-            <dd id="detail-discipline" class="mt-2 text-xs">-</dd>
-          </div>
-          <div>
-            <dt class="micro muted">Niveau</dt>
-            <dd id="detail-level" class="mt-2 text-xs">Licence 1</dd>
-          </div>
-          <div>
-            <dt class="micro muted">Année</dt>
-            <dd id="detail-year" class="mt-2 text-xs">-</dd>
-          </div>
-        </dl>
-
-        <div class="mt-8">
-          <h3 class="serif text-xl">Résumé</h3>
-          <p id="detail-abstract" class="detail-content mt-3"></p>
-        </div>
-
-        <div class="mt-8" id="detail-equation-wrapper">
-          <h3 class="serif text-xl">Extrait mathématique</h3>
-          <div id="detail-equation" class="math-panel mt-3"></div>
-        </div>
-
-        <div class="mt-8">
-          <h3 class="serif text-xl">Ressources & Accès</h3>
-          <div id="detail-resources" class="mt-3 flex flex-wrap gap-3"></div>
-        </div>
-      </div>
-    </section>
-
-    <div class="rule"></div>
-
-    <!-- À propos -->
-    <section id="a-propos" class="py-12 sm:py-16">
-      <p class="micro muted">Présentation</p>
-      <h2 class="serif mt-2 text-3xl font-medium">À propos du projet</h2>
-
-      <div class="mt-6 grid gap-8 sm:grid-cols-[1.15fr_.85fr]">
-        <div class="serif text-base leading-[1.95] text-[#65645f]">
-          <p>
-            Ce site rassemble mes travaux personnels et notes d'étude rédigés au cours de ma formation en mathématiques. L'objectif est de structurer mes connaissances, de consolider ma rigueur de démonstration et de rendre ces ressources librement accessibles.
-          </p>
-        </div>
-
-        <aside class="border-l border-[#dedbd3] pl-5">
-          <p class="micro muted">Exigences de rédaction</p>
-          <ul class="mt-4 space-y-4 text-xs leading-6 text-[#65645f]">
-            <li class="flex gap-3">
-              <span class="mono text-navy">01</span>
-              <span>Précision formelle des définitions et théorèmes.</span>
-            </li>
-            <li class="flex gap-3">
-              <span class="mono text-navy">02</span>
-              <span>Explicitation complète des hypothèses de travail.</span>
-            </li>
-            <li class="flex gap-3">
-              <span class="mono text-navy">03</span>
-              <span>Archivage pérenne et citations structurées (DOI / Zenodo).</span>
-            </li>
-          </ul>
-        </aside>
-      </div>
-    </section>
-
-    <div class="rule"></div>
-
-    <!-- Citation -->
-    <section id="references" class="py-12 sm:py-16">
-      <p class="micro muted">Références</p>
-      <h2 class="serif mt-2 text-3xl font-medium">Citation bibliographique</h2>
-      <p class="mt-4 max-w-xl text-xs leading-6 text-muted">
-        Structure type BibTeX pour citer mes travaux répertoriés sur ce site ou déposés sur Zenodo.
-      </p>
-
-      <div class="mt-6 border border-[#dedbd3]">
-        <div class="flex items-center justify-between gap-3 border-b border-[#dedbd3] bg-[#efede6] px-4 py-3">
-          <span class="mono text-[10px] text-[#77766f]">reference.bib</span>
-          <button id="copy-bibtex" class="inline-flex items-center gap-2 text-xs text-navy hover:underline" type="button">
-            <i data-lucide="copy" class="h-3.5 w-3.5"></i>
-            Copier la trame
-          </button>
-        </div>
-        <pre class="bibtex m-0"><code id="bibtex-code">@misc{Cousseau2026,
-  author       = {Cousseau, Hugo},
-  title        = {Titre du document},
-  year         = {2026},
-  note         = {Essai indépendant, Licence 1 Mathématiques},
-  language     = {french},
-  howpublished = {Manuscrit/Archive web}
-}</code></pre>
-      </div>
-
-      <div class="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs">
-        <a href="https://zenodo.org/" target="_blank" rel="noopener noreferrer" class="text-link inline-flex items-center gap-2">
-          <i data-lucide="archive" class="h-3.5 w-3.5"></i>
-          Dépôts Zenodo
-        </a>
-        <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener noreferrer" class="text-link inline-flex items-center gap-2">
-          <i data-lucide="scale" class="h-3.5 w-3.5"></i>
-          Licence CC BY 4.0
-        </a>
+      <div class="serif mt-4 space-y-4 text-base leading-relaxed text-[#65645f]">
+        <p>
+          Ce site ne contient ni cours complets ni fiches de révision, mais uniquement des textes autonomes et ponctuels. Chaque dépôt s'accompagne de son code source et d'un archivage pérenne pour garantir la traçabilité des écrits.
+        </p>
       </div>
     </section>
   </main>
 
-  <!-- Pied de page -->
-  <footer class="border-t border-[#dedbd3]">
-    <div class="page flex flex-col justify-between gap-4 py-7 sm:flex-row sm:items-center">
-      <div>
-        <p class="text-xs font-medium">Hugo COUSSEAU</p>
-        <p class="mt-1 text-[10px] text-muted">Archives mathématiques · France</p>
+  <!-- Footer -->
+  <footer class="border-t border-line py-8">
+    <div class="page flex flex-col justify-between gap-4 text-xs text-muted sm:flex-row">
+      <p>Hugo COUSSEAU · Archives personnelles</p>
+      <div class="flex gap-4">
+        <a href="https://zenodo.org/" target="_blank" rel="noopener noreferrer" class="hover:text-navy">Zenodo</a>
+        <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener noreferrer" class="hover:text-navy">CC BY 4.0</a>
+        <a href="#" class="hover:text-navy">Haut de page ↑</a>
       </div>
-      <div class="flex flex-wrap gap-x-5 gap-y-3 text-xs">
-        <a class="footer-link inline
+    </div>
+  </footer>
+
+  <div id="toast" role="status">Citation copiée dans le presse-papier.</div>
+
+  <script>
+    (() => {
+      'use strict';
+
+      /* 
+       * TABLEAU DE VOS TRAVAUX (Vide par défaut)
+       * Pour ajouter un essai quand vous en avez un, ajoutez un objet ici :
+       *
+       * {
+       *   title: "Mon premier essai sur les séries",
+       *   date: "2026",
+       *   description: "Une étude succincte des critères de convergence des séries à termes positifs.",
+       *   abstract: "Dans cette note, nous revenons sur la démonstration du critère de Riemann...",
+       *   pdf: "documents/essai_series.pdf",
+       *   doi: "10.5281/zenodo.1234567",
+       *   bibtex: `@misc{cousseau2026series,\n  author = {Cousseau, Hugo},\n  title = {Mon premier essai sur les séries},\n  year = {2026}\n}`
+       * }
+       */
+      const documents = [];
+
+      const $ = selector => document.querySelector(selector);
+
+      function renderList() {
+        const container = $('#document-list');
+        $('#doc-count').textContent = `${documents.length} document${documents.length > 1 ? 's' : ''}`;
+
+        if (documents.length === 0) {
+          container.innerHTML = `
+            <div class="border border-dashed border-[#dedbd3] p-8 text-center">
+              <p class="serif text-base text-ink">Aucun travail déposé pour le moment.</p>
+              <p class="mt-2 text-xs text-muted">Les essais seront ajoutés ici au fur et à mesure de leur rédaction et de leur archivage.</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = documents.map((doc, index) => `
+          <article class="paper-card">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <span class="mono text-[10px] text-navy">DOC-${String(index + 1).padStart(2, '0')} · ${doc.date}</span>
+                <h3 class="serif text-xl font-medium mt-1">${doc.title}</h3>
+              </div>
+              ${doc.pdf ? `<a href="${doc.pdf}" target="_blank" class="primary-button flex-shrink-0"><i data-lucide="file-down" class="h-3.5 w-3.5"></i> PDF</a>` : ''}
+            </div>
+
+            <p class="mt-3 text-xs leading-relaxed text-[#65645f]">${doc.description}</p>
+
+            ${doc.abstract ? `
+              <div class="mt-4 pt-4 border-t border-line text-xs text-muted serif">
+                <strong>Résumé :</strong> ${doc.abstract}
+              </div>
+            ` : ''}
+
+            ${doc.bibtex ? `
+              <div class="mt-4">
+                <div class="flex items-center justify-between text-[10px] text-muted mb-1">
+                  <span class="mono">BibTeX</span>
+                  <button onclick="copyBibtex(\`${doc.bibtex.replace(/`/g, '\\`')}\`)" class="hover:text-navy text-xs">Copier</button>
+                </div>
+                <pre class="bibtex-box">${doc.bibtex}</pre>
+              </div>
+            ` : ''}
+          </article>
+        `).join('');
+
+        if (window.lucide) window.lucide.createIcons();
+      }
+
+      window.copyBibtex = (text) => {
+        navigator.clipboard.writeText(text).then(() => {
+          const toast = $('#toast');
+          toast.classList.add('visible');
+          setTimeout(() => toast.classList.remove('visible'), 2000);
+        });
+      };
+
+      document.addEventListener('DOMContentLoaded', () => {
+        if (window.lucide) window.lucide.createIcons();
+        renderList();
+      });
+    })();
+  </script>
+</body>
+</html>
