@@ -2,348 +2,98 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7f6f2">
-  <meta name="description" content="Essais et travaux mathématiques de Hugo COUSSEAU.">
-  <title>Hugo COUSSEAU — Travaux Mathématiques</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            paper: '#f7f6f2',
-            ink: '#292b2e',
-            muted: '#77766f',
-            line: '#dedbd3',
-            navy: '#344f72'
-          },
-          fontFamily: {
-            sans: ['Inter', 'Arial', 'sans-serif'],
-            serif: ['"Source Serif 4"', 'Georgia', 'serif'],
-            mono: ['"IBM Plex Mono"', 'monospace']
-          }
-        }
-      }
-    };
-  </script>
-
-  <!-- Typographie -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
-
-  <!-- KaTeX -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js"></script>
-
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hugo Cousseau — Université de Caen Normandie</title>
   <style>
-    :root {
-      --paper: #f7f6f2;
-      --ink: #292b2e;
-      --muted: #77766f;
-      --line: #dedbd3;
-      --navy: #344f72;
-      --serif: "Source Serif 4", Georgia, serif;
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      background: var(--paper);
-      scroll-behavior: smooth;
-    }
-
+    /* Style minimaliste type page universitaire */
     body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family: Inter, Arial, sans-serif;
-      font-size: 14px;
-      -webkit-font-smoothing: antialiased;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 0 20px;
+      line-height: 1.6;
+      color: #222;
+      background: #fafafa;
     }
-
-    .page {
-      width: min(100% - 40px, 780px);
-      margin-inline: auto;
-    }
-
-    .serif { font-family: var(--serif); }
-    .mono { font-family: "IBM Plex Mono", monospace; }
-
-    .micro {
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 10px;
-      letter-spacing: .05em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .rule {
-      height: 1px;
-      background: var(--line);
-    }
-
-    .hero-title {
-      font-family: var(--serif);
-      font-weight: 400;
-      letter-spacing: -.03em;
-      line-height: 1.15;
-    }
-
-    .primary-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border: 1px solid #344f72;
-      background: #344f72;
-      color: #fff;
-      font-size: 12px;
-      transition: background .15s ease;
-    }
-    .primary-button:hover { background: #263e5b; }
-
-    .secondary-button {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 14px;
-      border: 1px solid #d5d1c7;
-      background: transparent;
-      color: #41434a;
-      font-size: 12px;
-      transition: background .15s ease;
-    }
-    .secondary-button:hover { background: #eeece5; }
-
-    .paper-card {
-      border: 1px solid var(--line);
-      background: #fbfaf7;
-      padding: 24px;
-      margin-bottom: 24px;
-    }
-
-    .bibtex-box {
-      overflow-x: auto;
-      background: #efede6;
-      border: 1px solid #dedbd3;
-      padding: 14px;
-      color: #454955;
-      font-family: "IBM Plex Mono", monospace;
-      font-size: 11px;
-      line-height: 1.8;
-      white-space: pre;
-    }
-
-    #toast {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      z-index: 100;
-      padding: 10px 16px;
-      border: 1px solid #d5d1c7;
-      background: #fbfaf7;
-      color: #292b2e;
-      font-size: 12px;
-      opacity: 0;
-      pointer-events: none;
-      transform: translate(-50%, 6px);
-      transition: all .2s ease;
-    }
-    #toast.visible {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
+    h1 { font-size: 1.5rem; margin-bottom: 0.2rem; font-weight: 600; }
+    p { margin-top: 0; color: #555; }
+    hr { border: 0; border-top: 1px solid #ddd; margin: 25px 0; }
+    ul { padding-left: 20px; }
+    li { margin-bottom: 8px; }
+    a { color: #1a5fb4; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .muted { color: #777; font-size: 0.9em; }
   </style>
 </head>
-
 <body>
 
-  <!-- En-tête -->
-  <header class="border-b border-line py-5">
-    <div class="page flex items-center justify-between">
-      <a href="#" class="flex items-center gap-3">
-        <span class="flex h-8 w-8 items-center justify-center border border-[#c9c5bb] font-serif text-xl text-navy">∑</span>
-        <div>
-          <span class="block text-sm font-semibold tracking-tight">Hugo COUSSEAU</span>
-          <span class="block text-[10px] text-muted">Essais & Travaux Mathématiques</span>
-        </div>
-      </a>
-
-      <nav class="flex gap-4 text-xs text-[#66665f]">
-        <a href="#travaux" class="hover:text-navy">Travaux</a>
-        <a href="#a-propos" class="hover:text-navy">À propos</a>
-      </nav>
-    </div>
+  <!-- Informations principales -->
+  <header>
+    <h1>Hugo Cousseau</h1>
+    <p>Étudiant en Licence 1 de Mathématiques — Université de Caen Normandie</p>
   </header>
 
-  <main class="page">
-    <!-- Hero Section -->
-    <section class="py-12 sm:py-16">
-      <p class="micro">Espace personnel de publication</p>
-
-      <h1 class="hero-title mt-4 text-4xl sm:text-5xl">
-        Notes et essais mathématiques.
-      </h1>
-
-      <p class="serif mt-5 max-w-xl text-lg text-[#65645f]">
-        Bienvenue. Cet espace me sert à déposer occasionnellement mes travaux d'étude, synthèses et essais rédigés en parallèle de mon parcours en mathématiques.
+  <main>
+    <!-- Contact / Liens -->
+    <section>
+      <p>
+        <strong>Contact :</strong> 
+        <a href="mailto:hugo.cousseau@etu.unicaen.fr">hugo.cousseau@etu.unicaen.fr</a><br>
+        <strong>GitHub :</strong> 
+        <a href="https://github.com/hugocousseau" target="_blank" rel="noopener">github.com/hugocousseau</a>
       </p>
-
-      <div class="mt-6 flex flex-wrap items-center gap-4 text-xs text-muted">
-        <span class="inline-flex items-center gap-1.5">
-          <i data-lucide="graduation-cap" class="h-4 w-4 text-navy"></i>
-          Étudiant en Mathématiques (L1) Université de Caen Normandie.
-        </span>
-        <span class="inline-flex items-center gap-1.5">
-          <i data-lucide="shield-check" class="h-4 w-4 text-navy"></i>
-          Open Access (CC BY 4.0)
-        </span>
-      </div>
-
-      <div class="mt-8 flex gap-3">
-        <a href="https://github.com/" target="_blank" rel="noopener noreferrer" class="secondary-button">
-          <i data-lucide="github" class="h-4 w-4"></i>
-          Mon GitHub
-          <i data-lucide="external-link" class="h-3 w-3"></i>
-        </a>
-      </div>
     </section>
 
-    <div class="rule"></div>
+    <hr>
 
-    <!-- Section Publications -->
-    <section id="travaux" class="py-12">
-      <div class="mb-8 flex items-baseline justify-between">
-        <div>
-          <p class="micro">Publications</p>
-          <h2 class="serif text-2xl font-medium">Dépôts récents</h2>
-        </div>
-        <span id="doc-count" class="mono text-xs text-muted">0 document</span>
-      </div>
-
-      <!-- Liste dynamique des documents -->
-      <div id="document-list"></div>
-    </section>
-
-    <div class="rule"></div>
-
-    <!-- Section À propos -->
-    <section id="a-propos" class="py-12">
-      <p class="micro">Démarche</p>
-      <h2 class="serif text-2xl font-medium">À propos</h2>
-
-      <div class="serif mt-4 space-y-4 text-base leading-relaxed text-[#65645f]">
-        <p>
-          Ce site ne contient ni cours complets ni fiches de révision, mais uniquement des textes autonomes et ponctuels. Chaque dépôt s'accompagne de son code source et d'un archivage pérenne pour garantir la traçabilité des écrits.
-        </p>
-      </div>
+    <!-- Documents & Travaux (Auto-détectés) -->
+    <section>
+      <h2>Documents &amp; Travaux</h2>
+      <p class="muted">Les fichiers ci-dessous sont issus du dossier <code>documents/</code> :</p>
+      
+      <ul id="documents-list">
+        <li class="muted">Chargement des documents...</li>
+      </ul>
     </section>
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-line py-8">
-    <div class="page flex flex-col justify-between gap-4 text-xs text-muted sm:flex-row">
-      <p>Hugo COUSSEAU · Archives personnelles</p>
-      <div class="flex gap-4">
-        <a href="https://zenodo.org/" target="_blank" rel="noopener noreferrer" class="hover:text-navy">Zenodo</a>
-        <a href="https://creativecommons.org/licenses/by/4.0/deed.fr" target="_blank" rel="noopener noreferrer" class="hover:text-navy">CC BY 4.0</a>
-        <a href="#" class="hover:text-navy">Haut de page ↑</a>
-      </div>
-    </div>
-  </footer>
-
-  <div id="toast" role="status">Citation copiée dans le presse-papier.</div>
-
+  <!-- Script d'auto-détection du dossier documents/ via GitHub -->
   <script>
-    (() => {
-      'use strict';
+    // ⚠️ Remplace par ton vrai nom d'utilisateur GitHub et le nom exact de ton dépôt
+    const GITHUB_USER = 'hugocousseau';
+    const GITHUB_REPO = 'mon-depot-maths';
 
-      /* 
-       * TABLEAU DE VOS TRAVAUX (Vide par défaut)
-       * Pour ajouter un essai quand vous en avez un, ajoutez un objet ici :
-       *
-       * {
-       *   title: "Mon premier essai sur les séries",
-       *   date: "2026",
-       *   description: "Une étude succincte des critères de convergence des séries à termes positifs.",
-       *   abstract: "Dans cette note, nous revenons sur la démonstration du critère de Riemann...",
-       *   pdf: "documents/essai_series.pdf",
-       *   doi: "10.5281/zenodo.1234567",
-       *   bibtex: `@misc{cousseau2026series,\n  author = {Cousseau, Hugo},\n  title = {Mon premier essai sur les séries},\n  year = {2026}\n}`
-       * }
-       */
-      const documents = [];
+    async function loadGithubDocuments() {
+      const listElement = document.getElementById('documents-list');
+      
+      try {
+        const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/documents`);
+        
+        if (!response.ok) {
+          throw new Error('Dossier introuvable ou vide');
+        }
 
-      const $ = selector => document.querySelector(selector);
+        const files = await response.json();
+        const pdfFiles = files.filter(file => file.name.endsWith('.pdf') || file.type === 'file');
 
-      function renderList() {
-        const container = $('#document-list');
-        $('#doc-count').textContent = `${documents.length} document${documents.length > 1 ? 's' : ''}`;
-
-        if (documents.length === 0) {
-          container.innerHTML = `
-            <div class="border border-dashed border-[#dedbd3] p-8 text-center">
-              <p class="serif text-base text-ink">Aucun travail déposé pour le moment.</p>
-              <p class="mt-2 text-xs text-muted">Les essais seront ajoutés ici au fur et à mesure de leur rédaction et de leur archivage.</p>
-            </div>
-          `;
+        if (pdfFiles.length === 0) {
+          listElement.innerHTML = '<li class="muted">Aucun document dans le dossier <code>documents/</code> pour le moment.</li>';
           return;
         }
 
-        container.innerHTML = documents.map((doc, index) => `
-          <article class="paper-card">
-            <div class="flex items-start justify-between gap-4">
-              <div>
-                <span class="mono text-[10px] text-navy">DOC-${String(index + 1).padStart(2, '0')} · ${doc.date}</span>
-                <h3 class="serif text-xl font-medium mt-1">${doc.title}</h3>
-              </div>
-              ${doc.pdf ? `<a href="${doc.pdf}" target="_blank" class="primary-button flex-shrink-0"><i data-lucide="file-down" class="h-3.5 w-3.5"></i> PDF</a>` : ''}
-            </div>
-
-            <p class="mt-3 text-xs leading-relaxed text-[#65645f]">${doc.description}</p>
-
-            ${doc.abstract ? `
-              <div class="mt-4 pt-4 border-t border-line text-xs text-muted serif">
-                <strong>Résumé :</strong> ${doc.abstract}
-              </div>
-            ` : ''}
-
-            ${doc.bibtex ? `
-              <div class="mt-4">
-                <div class="flex items-center justify-between text-[10px] text-muted mb-1">
-                  <span class="mono">BibTeX</span>
-                  <button onclick="copyBibtex(\`${doc.bibtex.replace(/`/g, '\\`')}\`)" class="hover:text-navy text-xs">Copier</button>
-                </div>
-                <pre class="bibtex-box">${doc.bibtex}</pre>
-              </div>
-            ` : ''}
-          </article>
+        listElement.innerHTML = pdfFiles.map(file => `
+          <li>
+            <a href="${file.download_url}" target="_blank" rel="noopener">${file.name}</a>
+          </li>
         `).join('');
 
-        if (window.lucide) window.lucide.createIcons();
+      } catch (error) {
+        listElement.innerHTML = '<li class="muted">Impossible de charger automatiquement les documents (vérifie le nom du dépôt dans le script).</li>';
       }
+    }
 
-      window.copyBibtex = (text) => {
-        navigator.clipboard.writeText(text).then(() => {
-          const toast = $('#toast');
-          toast.classList.add('visible');
-          setTimeout(() => toast.classList.remove('visible'), 2000);
-        });
-      };
-
-      document.addEventListener('DOMContentLoaded', () => {
-        if (window.lucide) window.lucide.createIcons();
-        renderList();
-      });
-    })();
+    loadGithubDocuments();
   </script>
+
 </body>
 </html>
